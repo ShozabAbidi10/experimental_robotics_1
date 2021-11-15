@@ -28,22 +28,6 @@ from exporobot_assignment1.srv import Command
 from std_msgs.msg import String
 
 
-##  A global variable with datatype 'string' used as a flag to start the simulation.
-
-
-
-##
-# \brief This is a callback function of the subscriber for the ROS topic '/user_interface_sig'. 
-# \param msg is the string data  
-# \return [none].
-#
-# This is function takes the msg data coming from the  '/user_interface_sig' topic and 
-# store it in the global variable 'value_.' 
-#
-#def clbk_expo(msg):
-#	global value_
-#	value_ = msg.req
-
 ##
 # \brief This is a 'main' function of user_interface node. 
 # 
