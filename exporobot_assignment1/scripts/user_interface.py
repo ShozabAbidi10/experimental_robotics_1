@@ -24,7 +24,7 @@
 
 import rospy
 import time
-from exporobot_assignment1.srv import Command, CommandResponse
+from exporobot_assignment1.srv import Command
 from std_msgs.msg import String
 
 
