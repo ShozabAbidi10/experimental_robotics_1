@@ -1,18 +1,18 @@
 # Assignment 1 of the Experimental Robotics course (MSc Robotics Engineering, Unige)
 
-The following repository contains a ROS package for a toy simulation of Clauedo game in which a robot explore the environment for hints to find the killer. The environment in this project is an appartment with three rooms in which robot enter one by one to find hints. Based on the discovered hints robot deduces a hypotheses regarding the killer. The deduced hypotheses by robot has to be consistent. A hypotheses will be consistent if it is based on three different types of hints.
+The following repository contains a ROS package for a toy simulation of Clauedo game in which a robot explore the environment for hints to find the killer. The environment in this project is an appartment with three rooms in which robot enter one by one to find hints. Based on the discovered hints robot deduces a hypotheses regarding the killer. The deduced hypotheses by robot has to be consistent which means it has to be based on three different types of hints.
 
 1. who: Robot can find a name of a person as a hint which can be a killer e.g: Prof. Plum.
 2. what: Robot can find a name of a weapon as a hint which killer might have used e.g: Dagger.
 3. where: Robot can find a name of random place where the crime might have been committed e.g: Hall.
 
-Statement of a consistent hypothesis would be something like this: “Prof. Plum with the Dagger in the Hall”. Incase the deduced hypotheses is wrong then the robot will visit the three rooms again for new hints until it forms a consistent hypotheses. 
+Statement of a consistent hypothesis will be something like this: “Prof. Plum with the Dagger in the Hall”. Incase the deduced hypotheses is wrong then the robot will visit the three rooms again for new hints until it forms a consistent hypotheses. 
 
 To deduced an hypothesis robot use the ARMOR package service which is developed by researchers at University of Genova. ARMOR is versatile management system that can handle single or multiple-ontology archetectures under ROS. Please find more details regarding ARMOR from here: https://github.com/EmaroLab/armor 
 
 ## Project Installation:
 
-This project requires ROS with ARMOR package to be install in the system. Please make sure you have alrady install it before following the instructions. For installing ARMOR package you go to this link: https://github.com/EmaroLab/armor 
+This project requires ROS with ARMOR package to be install in the system. Please make sure you have alrady install it before following the instructions. For installing ARMOR package please follow the instructions available in this respository: https://github.com/EmaroLab/armor 
 
 1. Code available in **Main** branch is a ROS package which should be place in ROS workspace {ros1_ws}/src after downloading.
 2. To successfully deploy and build the package run the following command.
@@ -25,30 +25,53 @@ source setup.bash
 ``` 
 export PYTHONPATH=$PYTHONPATH:/root/ros_ws/src/armor/armor_py_api/scripts/armor_api/
 ```
+4. Download the 'cluedo_ontology.owl' file provided in this repository and place it in the '/root/Desktop/' directory. 
 
 ## Running the Project Simulation:
 
+1. After successfully installing the python package and other dependecies open a command window and start ROS master by using the following command:
+```
+roscore&
+```
+2. After that start the ARMOR service by using the following command:
+```
+rosrun armor execute it.emarolab.armor.ARMORMainService
+```
+3. Open the new tab in command terminal and run the ROS package launch file to start the simulation by using the following command: 
+```
+roslaunch exporobot_assignment1 exporobot_assignment1.launch
+```
+After running the command wait for the system to load all the files. Once all nodes are loaded, the user_interface node will ask to press 1. Upon pressing 1, the simulation will start.
 
 ## Project Architecture:
 
-Part1 of the project is consist of four main nodes. 
+The project architecture is consist of four python nodes. 
 
-1. position_service 
-2. state_machine_action 
-3. go_to_point_action.py
-4. user_interface_action.py
+1. user_interface.py
+2. motion_controller.py 
+3. hint_generator.py 
+4. oracle.py
 
-'user_interface_action' node communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request '/user interface' service which is host by 'state_machine_action.py' node. Letting the node know that user have request for mobile robot to move. Therefore, upon receiving the service request from 'user interface' node it request another service '/position server' which is hosted by 'position service' node to randomly generate goal coordinates for the robot to follow. Once it receives the goal coordinates in response to the earlier request to '/position service' service, it pass these goal coordinates to an action service "/go_to_point" which is host by 'go_to_point_action.py' node. Once ‘go_to_point_action.py’ node receives the goal coordinate it start computing required linear and angular velocity values for robot to reach that point and meanwhile start publishing it on ‘cmd_vel’ topic which subscribed by Gazeebo. Since ‘/go_to_point’ is an action service therefore the user has the option to request cancelling the goal at any point during the execution. And for this purpose the ‘user interface’ node ask the user to press 0 in order to cancel the goal. 
+![experimental_robotics_assignment1](https://user-images.githubusercontent.com/61094879/141977344-334c0f02-dc3f-42a0-85e0-701b22b38f2f.jpg)
 
-In order to run this part please make sure you are in /root folder where you have already downloaded **rt2_assignment_1a.sh** bash file. Open the terminal and run the following command.
+'user_interface.py' node communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request '/user interface' service which is hosted by 'motion_controller.py' node to start the robot simuation. Upon recieving the service request, motion_controller node starts the robot simulation in which robot visits Room1, Room2, and Roo3 which have pre-defined coordnates(R1(2,0), R2(0,2), R3(-2,0)) in a X-Y axes grid. The robot starts the exploration from a predefined initial position P with coordinates (1,1). After reaching in any room the robot request for the hint from the hint_generator node by calling the '/request_hint' service. The hint_generator node respond to this request by generating a random hint from predefined lists of hints.
 
 ```
-./rt2_assignment_1b.sh
+people = ['Rev. Green','Prof. Plum','Col. Mustard','Mrs. Peacock', 'Miss. Scarlett', 'Mrs. White']
+weapons = ['Candlestick','Dagger','Lead Pipe','Revolver', Rope', 'Spanner']
+places = ['Kitchen','Lounge','Library','Hall','Study', 'Ballroom']
 ```
-After doing this you will see three terminal windows start appearing on the screen, including a Gazebo simulation with a mobile robot in it. Wait for the system load all the files. Find the terminal window with title **user_interface** which will be asking to press 1. Upon pressing 1, the mobile robot will start moving towards the randomly generated goal target. And if during the execution of this goal if you press 0 the robot will stop immediately. 
+After recieving the hint, the robot request the '/oracle_service' which is hosted by oracle node to load this hint in the AMOR reasonser. In reply to this request, the robot reacive the confirmation regarding the hint to be successfully loaded in the AMOR reasoner.
+ This node control the robot motion. 
 
-6. Once program is loaded it will be asking user to press 1. Upon pressing 1, the mobile robot will start moving towards the randomly generated goal target. And if during the execution of this goal if you press 0 the robot will not stop immediately. It will complete the last assigned target first and then stop.
 
+ After reaching every room coordinates, it request the oracle node to give the hint. 
+ After visiting and reciving all the hints it start the reasoner. 
+ Then it check if the hypothesis based on previous loaded hints is consistent or not. 
+ If the hints are consistent then it go to the origin position O(0,0) and print the statement. 
+ Ask the user_interface node to ask user to again do the exploration. 
+ If the hypothesis is not consistent then it will continue the exploration again. 
+  
 
 Contant Info: 
 Author: Shozab Abidi
