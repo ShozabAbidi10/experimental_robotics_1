@@ -43,7 +43,7 @@ roslaunch exporobot_assignment1 exporobot_assignment1.launch
 ```
 After running the command wait for the system to load all the files. Once all nodes are loaded, the user_interface node will ask to press 1. Upon pressing 1, the simulation will start.
 
-## Project Architecture:
+## Software Architecture of the Project:
 
 The project architecture is consist of four python nodes. 
 
@@ -54,25 +54,17 @@ The project architecture is consist of four python nodes.
 
 ![experimental_robotics_assignment1](https://user-images.githubusercontent.com/61094879/141977344-334c0f02-dc3f-42a0-85e0-701b22b38f2f.jpg)
 
-'user_interface.py' node communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request '/user interface' service which is hosted by 'motion_controller.py' node to start the robot simuation. Upon recieving the service request, motion_controller node starts the robot simulation in which robot visits Room1, Room2, and Roo3 which have pre-defined coordnates(R1(2,0), R2(0,2), R3(-2,0)) in a X-Y axes grid. The robot starts the exploration from a predefined initial position P with coordinates (1,1). After reaching in any room the robot request for the hint from the hint_generator node by calling the '/request_hint' service. The hint_generator node respond to this request by generating a random hint from predefined lists of hints.
+'user_interface.py' node communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request '/user interface' service which is hosted by 'motion_controller.py' node to start the robot simuation. Upon recieving the service request, motion_controller node starts the robot simulation in which robot visits Room1, Room2, and Room3 which have pre-defined coordinates(R1(2,0), R2(0,2), R3(-2,0)) in a X-Y axes grid. The robot starts the exploration from a predefined initial position P with coordinates (1,1). After reaching in any room the robot request for the hint from the hint_generator node by calling the '/request_hint' service. The hint_generator node respond to this request by generating a random hint from predefined lists of hints.
 
 ```
 people = ['Rev. Green','Prof. Plum','Col. Mustard','Mrs. Peacock', 'Miss. Scarlett', 'Mrs. White']
 weapons = ['Candlestick','Dagger','Lead Pipe','Revolver', Rope', 'Spanner']
 places = ['Kitchen','Lounge','Library','Hall','Study', 'Ballroom']
 ```
-After recieving the hint, the robot request the '/oracle_service' which is hosted by oracle node to load this hint in the AMOR reasonser. In reply to this request, the robot reacive the confirmation regarding the hint to be successfully loaded in the AMOR reasoner.
- This node control the robot motion. 
+After recieving the hint, the robot request the '/oracle_service' service which is hosted by oracle node to load the recently discovered hint in the AMOR reasonser. In response to this request, the robot recieve the confirmation feedback if the hint is successfully loaded in the reasoner. After that robot resume its exploration by visiting other rooms  and repeating the same setups of requesting services for getting hints and then later loading hints in the reasoner. Once the robot has visited all the rooms and collected all the hints then it once again request '/oracle_service' to starts the reasoner to deduced the hypotheses and then to check if the hypotheses based on recenlty loaded hints is conistent or not. If the hypotheses is found consistent then the robot visit the origin position O with coordinates (0,0) and print the hypotheses statement (e.g: “Prof. Plum with the Dagger in the Hall”) on the terminal screen, otherwise it repeats the exploration again starting from Room1.
 
-
- After reaching every room coordinates, it request the oracle node to give the hint. 
- After visiting and reciving all the hints it start the reasoner. 
- Then it check if the hypothesis based on previous loaded hints is consistent or not. 
- If the hints are consistent then it go to the origin position O(0,0) and print the statement. 
- Ask the user_interface node to ask user to again do the exploration. 
- If the hypothesis is not consistent then it will continue the exploration again. 
+The oracle node itself used the '/armor_interface_srv' sevice which is hosted by ARMOR package. When it recieve the request from motion_controller node then it forward this request to the following service making itself working as a bridge between motion_controller and ARMOR package. The idea of having the oracle node in the first place is debatable but in this project the decision for having this node was taken for the purpose of clarity in software architecture and for assigning dedicated task to each node. 
   
-
-Contant Info: 
+## Contant Info: 
 Author: Shozab Abidi
 Email: hasanshozab10@gmail.com
