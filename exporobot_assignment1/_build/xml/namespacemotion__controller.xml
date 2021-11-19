@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacemotion__controller" kind="namespace" language="Python">
+    <compoundname>motion_controller</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacemotion__controller_1a1fe30b92dd990da6392e9122aee9b7bb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>motion_controller.req_hint_client_</definition>
+        <argsstring></argsstring>
+        <name>req_hint_client_</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="29" column="1" bodyfile="scripts/motion_controller.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacemotion__controller_1aff80e336ed5aca44d2ea2c49f027d04a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>motion_controller.req_oracle_client_</definition>
+        <argsstring></argsstring>
+        <name>req_oracle_client_</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="34" column="1" bodyfile="scripts/motion_controller.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacemotion__controller_1a154554f0fc5ed1e0f10cadf281dd8bbc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int motion_controller.hypo_</definition>
+        <argsstring></argsstring>
+        <name>hypo_</name>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="39" column="1" bodyfile="scripts/motion_controller.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacemotion__controller_1a8e4b6f09ea71a26ca3628d4cdd012d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def motion_controller.clbk_user_interface</definition>
+        <argsstring>(msg)</argsstring>
+        <name>clbk_user_interface</name>
+        <param>
+          <type>msg</type>
+          <defname>msg</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function waits for the &apos;user_interface&apos; node&apos;s request to start 
+the simulation. When the request with correct msg structure is recieved,
+it start the robot&apos;s exploration by calling the &apos;exploration()&apos; function. 
+
+Args: 
+    msg(Command): the input request message.
+    
+Returns: 
+    String </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="45" column="1" bodyfile="scripts/motion_controller.py" bodystart="45" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemotion__controller_1a06872e9e1457254fd970703b09251748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def motion_controller.exploration</definition>
+        <argsstring>()</argsstring>
+        <name>exploration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function starts the robot&apos;s exploration in which robot visits all the
+three rooms in the environment. It initializes all the rooms, origin and 
+robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and
+P (1,1). After reaching in every room,  it request the &apos;hint_generator&apos; node
+to provide the hint. Once hint is recieved, it request the &apos;oracle&apos; node to 
+load the that hint in the ARMOR reasoner and then move to visit next room. 
+After visiting and reciving all the hints it start the reasoner to deduced 
+the hypotheses and to check if the hypotheses based on previous loaded hints is
+consistent or not. If the hints are consistent then the robotgo to the origin
+position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
+not consistent then the node will repeat the exploration.
+
+Args: 
+    none
+    
+Returns: 
+    String </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="69" column="1" bodyfile="scripts/motion_controller.py" bodystart="69" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemotion__controller_1a1ede2d7edbe1ca7c923b778d319e39bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def motion_controller.visit</definition>
+        <argsstring>(current, goal)</argsstring>
+        <name>visit</name>
+        <param>
+          <type>current</type>
+          <defname>current</defname>
+        </param>
+        <param>
+          <type>goal</type>
+          <defname>goal</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function controls the robot&apos;s movement during the simulation, making
+it move from one point to another in the environemnt. It takes to arguement
+current position of the robot and goal position of the robot. It calculate 
+the distance between to points and move robot in a way to reduce this distance. 
+
+Args: 
+    current(Point()): Current position of the robot. 
+    goal(Point()): Target position of the robot.        
+    
+Returns: 
+    Bool </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="253" column="1" bodyfile="scripts/motion_controller.py" bodystart="253" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacemotion__controller_1a6166ed8edc1044e84dbd14b656004666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def motion_controller.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This is a &apos;main&apos; function of  &apos;motion_controller&apos; node. It initializes
+clients for &apos;/request_hint&apos; service hosted by &apos;hint_generator&apos; node, and
+&apos;/oracle_service&apos; service which is hosted by &apos;oracle&apos; node and lastly a 
+server for &apos;/user_interface&apos; service. Upon recieving request for 
+&apos;/user_interface&apos; service it calls the &apos;/clbk_user_interface&apos; function.  
+
+Args: 
+    none        
+    
+Returns: 
+    none</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/motion_controller.py" line="297" column="1" bodyfile="scripts/motion_controller.py" bodystart="297" bodyend="322"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. module:: motion_controller
+:platform: Unix
+:synopsis: Python module for the robot&apos;s motion controller
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node controls the robot motion in the simulation. It waits for the user_interface node&apos;s request to start the simulation. When the request is recieved, it start the robot&apos;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &apos;hint_generator&apos; node to provide the hint. Once hint is recieved, it request the &apos;oracle&apos; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. 
+  
+  
+Service:
+/request_hint
+/oracle_service
+/user_interface</verbatim> </para>
+    </detaileddescription>
+    <location file="scripts/motion_controller.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

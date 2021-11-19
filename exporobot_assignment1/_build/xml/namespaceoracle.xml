@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceoracle" kind="namespace" language="Python">
+    <compoundname>oracle</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceoracle_1addce41b61949c1690d281f4c1975f7a3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>oracle.armor_client_</definition>
+        <argsstring></argsstring>
+        <name>armor_client_</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="25" column="1" bodyfile="scripts/oracle.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1a87b22ca0c3581cf74c93f324d2e14a75" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>oracle.armor_req_</definition>
+        <argsstring></argsstring>
+        <name>armor_req_</name>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="30" column="1" bodyfile="scripts/oracle.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1a913e90668d431057307a71422817e20f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int oracle.count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="35" column="1" bodyfile="scripts/oracle.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1aa6b49d1aff1291557fe00d73caf4c83f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int oracle.prev_comp_hypo_</definition>
+        <argsstring></argsstring>
+        <name>prev_comp_hypo_</name>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="40" column="1" bodyfile="scripts/oracle.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceoracle_1aa735a42390262a1f132c09f8da62c672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def oracle.clbk_oracle_service</definition>
+        <argsstring>(msg)</argsstring>
+        <name>clbk_oracle_service</name>
+        <param>
+          <type>msg</type>
+          <defname>msg</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function is a callback function of &apos;/oracle_service&apos; node. It waits 
+for &apos;/oracle_service&apos; service request from the &apos;motion_controller&apos; node. 
+Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
+start the reasoner to deduced a hypotheses based on previously loaded hints and 
+request ARMOR reasoner for the list of &apos;INCONSISTENT&apos; and &apos;COMPLETE&apos; hypotheses. 
+If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; otherwise
+it respond with &apos;False&apos;. 
+
+Args: 
+    msg(Oracle): the input request message.
+    
+Returns: 
+    Bool </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="45" column="1" bodyfile="scripts/oracle.py" bodystart="45" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceoracle_1a5ac7249c0bad890a9f43d54c5b413399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def oracle.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This is a &apos;main&apos; function of &apos;oracle&apos; node. It initializes client for
+&apos;/armor_interface_srv&apos; service hosted by &apos;armor&apos; package and server for
+&apos;/oracle_service&apos; service. 
+
+Args: 
+    none
+    
+Returns: 
+    none </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="222" column="1" bodyfile="scripts/oracle.py" bodystart="222" bodyend="243"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. module:: oracle
+:platform: Unix
+:synopsis: Python module for the oracle
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node waits for &apos;/oracle_service&apos; service request from the &apos;motion_controller&apos; node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of &apos;INCONSISTENT&apos; and &apos;COMPLETE&apos; hypotheses. If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; otherwise it respond with &apos;False&apos;.
+
+Service:
+/armor_interface_srv
+/oracle_service</verbatim> </para>
+    </detaileddescription>
+    <location file="scripts/oracle.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

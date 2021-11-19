@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespacehint__generator" kind="namespace" language="Python">
+    <compoundname>hint_generator</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacehint__generator_1a69f0f8e568bf411b31f712575d8d218c" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list hint_generator.people</definition>
+        <argsstring></argsstring>
+        <name>people</name>
+        <initializer>=  [&apos;Rev. Green&apos;,&apos;Prof. Plum&apos;,&apos;Col. Mustard&apos;,&apos;Mrs. Peacock&apos;,
+						&apos;Miss. Scarlett&apos;, &apos;Mrs. White&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/hint_generator.py" line="25" column="1" bodyfile="scripts/hint_generator.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacehint__generator_1a1dbb92e1a3c3c7ff83bfa4a2f3beac26" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list hint_generator.weapons</definition>
+        <argsstring></argsstring>
+        <name>weapons</name>
+        <initializer>=  [&apos;Candlestick&apos;,&apos;Dagger&apos;,&apos;Lead Pipe&apos;,&apos;Revolver&apos;,
+						&apos;Rope&apos;, &apos;Spanner&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/hint_generator.py" line="31" column="1" bodyfile="scripts/hint_generator.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacehint__generator_1a707cf401b59f240d233f2acbcd4f34cb" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list hint_generator.places</definition>
+        <argsstring></argsstring>
+        <name>places</name>
+        <initializer>=  [&apos;Kitchen&apos;,&apos;Lounge&apos;,&apos;Library&apos;,&apos;Hall&apos;,&apos;Study&apos;, &apos;Ballroom&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/hint_generator.py" line="37" column="1" bodyfile="scripts/hint_generator.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacehint__generator_1ae046823668862946e05aba51b0819cc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def hint_generator.clbk_hint_generator</definition>
+        <argsstring>(msg)</argsstring>
+        <name>clbk_hint_generator</name>
+        <param>
+          <type>msg</type>
+          <defname>msg</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This is a &apos;clbk_hint_generator&apos; function of &apos;hint_generator&apos; node.
+This function waits for the &apos;/request_hint&apos; service&apos;s request from
+the motion controller node. Upon recieving request it randomly 
+generates the hint using a predefined lists of hints and response
+back to the client with the generated hint. 
+
+Args: 
+    msg(Hint): the input request message.
+    
+Returns: 
+    string[]: HintResponse() </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/hint_generator.py" line="42" column="1" bodyfile="scripts/hint_generator.py" bodystart="42" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacehint__generator_1a5083100fbe4ada96c66cf488cc7ccc51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>def</type>
+        <definition>def hint_generator.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function is a &apos;main&apos; function of  &apos;hint_generator&apos; node. It initializes server for &apos;/request_hint&apos; service.
+
+Args: 
+    none
+            
+Returns: 
+    none    </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/hint_generator.py" line="80" column="1" bodyfile="scripts/hint_generator.py" bodystart="80" bodyend="96"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. module:: hint_generator
+   :platform: Unix
+   :synopsis: Python module for the random hint_generation.
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node controls the random hint generation task. It waits for the &apos;/request_hint&apos; service&apos;s request from the motion controller node. Upon recieving request it randomly generates the hint using a predefined lists of hints and response back to the client with the generated hint. 
+
+
+Service:
+   /request_hint</verbatim> </para>
+    </detaileddescription>
+    <location file="scripts/hint_generator.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

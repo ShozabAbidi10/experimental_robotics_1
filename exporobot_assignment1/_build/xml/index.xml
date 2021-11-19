@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="namespaceconf" kind="namespace"><name>conf</name>
+    <member refid="conf_8py_1a332f430461432dc465213f884a1e4967" kind="variable"><name>shell</name></member>
+    <member refid="conf_8py_1a45653c983098153b78e33600e39230eb" kind="variable"><name>project</name></member>
+    <member refid="conf_8py_1a33fa97cf51dcb25970fbf53f10159589" kind="variable"><name>copyright</name></member>
+    <member refid="conf_8py_1a637c239d256432248aa8d9f3ab0b8c52" kind="variable"><name>author</name></member>
+    <member refid="conf_8py_1a325dc746d8bf05c54d26351c35a21d90" kind="variable"><name>release</name></member>
+    <member refid="conf_8py_1ae475e080536acb271a0a0efe56c3ba42" kind="variable"><name>extensions</name></member>
+    <member refid="conf_8py_1ae850ae634911b713e036b43894fdd525" kind="variable"><name>templates_path</name></member>
+    <member refid="conf_8py_1a7ad48fb6f3e9b129c02346ea0d3527c1" kind="variable"><name>exclude_patterns</name></member>
+    <member refid="conf_8py_1a3117edf4443d9b8c70a9f0f44294ba79" kind="variable"><name>highlight_language</name></member>
+    <member refid="conf_8py_1a10af2a769eb3bd3322e874f677e435b1" kind="variable"><name>source_suffix</name></member>
+    <member refid="conf_8py_1a6fcd7e5236f355b1e1a55f9d95988810" kind="variable"><name>master_doc</name></member>
+    <member refid="conf_8py_1a6c3bfcc1a44546c1c75ce20f55bd0fd6" kind="variable"><name>html_theme</name></member>
+    <member refid="conf_8py_1af4fb5d8851ccaade135c2668dd3ced41" kind="variable"><name>html_static_path</name></member>
+    <member refid="conf_8py_1a8375f4f963de3ac8026eaa9beced9564" kind="variable"><name>intersphinx_mapping</name></member>
+    <member refid="conf_8py_1a8fe7f0d85f975f4ecba5cb6066959a09" kind="variable"><name>todo_include_todos</name></member>
+    <member refid="conf_8py_1acb47d2c0c2904fa7d36b63142533f383" kind="variable"><name>breathe_projects</name></member>
+    <member refid="conf_8py_1a6eba2d2c7ae923054b1c49e686ec89b9" kind="variable"><name>breathe_default_project</name></member>
+    <member refid="conf_8py_1a54585428ce84441199d9dfd7087e2243" kind="variable"><name>breathe_default_members</name></member>
+  </compound>
+  <compound refid="namespacehint__generator" kind="namespace"><name>hint_generator</name>
+    <member refid="namespacehint__generator_1a69f0f8e568bf411b31f712575d8d218c" kind="variable"><name>people</name></member>
+    <member refid="namespacehint__generator_1a1dbb92e1a3c3c7ff83bfa4a2f3beac26" kind="variable"><name>weapons</name></member>
+    <member refid="namespacehint__generator_1a707cf401b59f240d233f2acbcd4f34cb" kind="variable"><name>places</name></member>
+    <member refid="namespacehint__generator_1ae046823668862946e05aba51b0819cc3" kind="function"><name>clbk_hint_generator</name></member>
+    <member refid="namespacehint__generator_1a5083100fbe4ada96c66cf488cc7ccc51" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="namespacemotion__controller" kind="namespace"><name>motion_controller</name>
+    <member refid="namespacemotion__controller_1a1fe30b92dd990da6392e9122aee9b7bb" kind="variable"><name>req_hint_client_</name></member>
+    <member refid="namespacemotion__controller_1aff80e336ed5aca44d2ea2c49f027d04a" kind="variable"><name>req_oracle_client_</name></member>
+    <member refid="namespacemotion__controller_1a154554f0fc5ed1e0f10cadf281dd8bbc" kind="variable"><name>hypo_</name></member>
+    <member refid="namespacemotion__controller_1a8e4b6f09ea71a26ca3628d4cdd012d96" kind="function"><name>clbk_user_interface</name></member>
+    <member refid="namespacemotion__controller_1a06872e9e1457254fd970703b09251748" kind="function"><name>exploration</name></member>
+    <member refid="namespacemotion__controller_1a1ede2d7edbe1ca7c923b778d319e39bc" kind="function"><name>visit</name></member>
+    <member refid="namespacemotion__controller_1a6166ed8edc1044e84dbd14b656004666" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="namespaceoracle" kind="namespace"><name>oracle</name>
+    <member refid="namespaceoracle_1addce41b61949c1690d281f4c1975f7a3" kind="variable"><name>armor_client_</name></member>
+    <member refid="namespaceoracle_1a87b22ca0c3581cf74c93f324d2e14a75" kind="variable"><name>armor_req_</name></member>
+    <member refid="namespaceoracle_1a913e90668d431057307a71422817e20f" kind="variable"><name>count_</name></member>
+    <member refid="namespaceoracle_1aa6b49d1aff1291557fe00d73caf4c83f" kind="variable"><name>prev_comp_hypo_</name></member>
+    <member refid="namespaceoracle_1aa735a42390262a1f132c09f8da62c672" kind="function"><name>clbk_oracle_service</name></member>
+    <member refid="namespaceoracle_1a5ac7249c0bad890a9f43d54c5b413399" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="namespaceuser__interface" kind="namespace"><name>user_interface</name>
+    <member refid="namespaceuser__interface_1ac26bdb296b6776907b72c17ce5a1b24a" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="_c_make_lists_8txt" kind="file"><name>CMakeLists.txt</name>
+  </compound>
+  <compound refid="conf_8py" kind="file"><name>conf.py</name>
+  </compound>
+  <compound refid="hint__generator_8py" kind="file"><name>hint_generator.py</name>
+  </compound>
+  <compound refid="motion__controller_8py" kind="file"><name>motion_controller.py</name>
+  </compound>
+  <compound refid="oracle_8py" kind="file"><name>oracle.py</name>
+  </compound>
+  <compound refid="user__interface_8py" kind="file"><name>user_interface.py</name>
+  </compound>
+  <compound refid="dir_53e6fa9553ac22a5646d2a2b2d7b97a1" kind="dir"><name>scripts</name>
+  </compound>
+</doxygenindex>

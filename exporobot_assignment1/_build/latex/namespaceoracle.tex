@@ -1,0 +1,76 @@
+\hypertarget{namespaceoracle}{}\doxysection{oracle Namespace Reference}
+\label{namespaceoracle}\index{oracle@{oracle}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceoracle_aa735a42390262a1f132c09f8da62c672}{clbk\+\_\+oracle\+\_\+service}} (msg)
+\item 
+def \mbox{\hyperlink{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespaceoracle_addce41b61949c1690d281f4c1975f7a3}\label{namespaceoracle_addce41b61949c1690d281f4c1975f7a3}} 
+{\bfseries armor\+\_\+client\+\_\+} = None
+\item 
+\mbox{\Hypertarget{namespaceoracle_a87b22ca0c3581cf74c93f324d2e14a75}\label{namespaceoracle_a87b22ca0c3581cf74c93f324d2e14a75}} 
+{\bfseries armor\+\_\+req\+\_\+} = None
+\item 
+\mbox{\Hypertarget{namespaceoracle_a913e90668d431057307a71422817e20f}\label{namespaceoracle_a913e90668d431057307a71422817e20f}} 
+int {\bfseries count\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}\label{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}} 
+int {\bfseries prev\+\_\+comp\+\_\+hypo\+\_\+} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}.. module:: oracle
+:platform: Unix
+:synopsis: Python module for the oracle
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'.
+
+Service:
+/armor_interface_srv
+/oracle_service\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceoracle_aa735a42390262a1f132c09f8da62c672}\label{namespaceoracle_aa735a42390262a1f132c09f8da62c672}} 
+\index{oracle@{oracle}!clbk\_oracle\_service@{clbk\_oracle\_service}}
+\index{clbk\_oracle\_service@{clbk\_oracle\_service}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{clbk\_oracle\_service()}{clbk\_oracle\_service()}}
+{\footnotesize\ttfamily def oracle.\+clbk\+\_\+oracle\+\_\+service (\begin{DoxyParamCaption}\item[{}]{msg }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function is a callback function of '/oracle_service' node. It waits 
+for '/oracle_service' service request from the 'motion_controller' node. 
+Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
+start the reasoner to deduced a hypotheses based on previously loaded hints and 
+request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. 
+If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise
+it respond with 'False'. 
+
+Args: 
+    msg(Oracle): the input request message.
+    
+Returns: 
+    Bool \end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}\label{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}} 
+\index{oracle@{oracle}!main@{main}}
+\index{main@{main}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def oracle.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This is a 'main' function of 'oracle' node. It initializes client for
+'/armor_interface_srv' service hosted by 'armor' package and server for
+'/oracle_service' service. 
+
+Args: 
+    none
+    
+Returns: 
+    none \end{DoxyVerb}
+ 

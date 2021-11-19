@@ -1,0 +1,117 @@
+\hypertarget{namespacemotion__controller}{}\doxysection{motion\+\_\+controller Namespace Reference}
+\label{namespacemotion__controller}\index{motion\_controller@{motion\_controller}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacemotion__controller_a8e4b6f09ea71a26ca3628d4cdd012d96}{clbk\+\_\+user\+\_\+interface}} (msg)
+\item 
+def \mbox{\hyperlink{namespacemotion__controller_a06872e9e1457254fd970703b09251748}{exploration}} ()
+\item 
+def \mbox{\hyperlink{namespacemotion__controller_a1ede2d7edbe1ca7c923b778d319e39bc}{visit}} (current, goal)
+\item 
+def \mbox{\hyperlink{namespacemotion__controller_a6166ed8edc1044e84dbd14b656004666}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{namespacemotion__controller_a1fe30b92dd990da6392e9122aee9b7bb}\label{namespacemotion__controller_a1fe30b92dd990da6392e9122aee9b7bb}} 
+{\bfseries req\+\_\+hint\+\_\+client\+\_\+} = None
+\item 
+\mbox{\Hypertarget{namespacemotion__controller_aff80e336ed5aca44d2ea2c49f027d04a}\label{namespacemotion__controller_aff80e336ed5aca44d2ea2c49f027d04a}} 
+{\bfseries req\+\_\+oracle\+\_\+client\+\_\+} = None
+\item 
+\mbox{\Hypertarget{namespacemotion__controller_a154554f0fc5ed1e0f10cadf281dd8bbc}\label{namespacemotion__controller_a154554f0fc5ed1e0f10cadf281dd8bbc}} 
+int {\bfseries hypo\+\_\+} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}.. module:: motion_controller
+:platform: Unix
+:synopsis: Python module for the robot's motion controller
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node controls the robot motion in the simulation. It waits for the user_interface node's request to start the simulation. When the request is recieved, it start the robot's exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the 'hint_generator' node to provide the hint. Once hint is recieved, it request the 'oracle' node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. 
+  
+  
+Service:
+/request_hint
+/oracle_service
+/user_interface\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacemotion__controller_a8e4b6f09ea71a26ca3628d4cdd012d96}\label{namespacemotion__controller_a8e4b6f09ea71a26ca3628d4cdd012d96}} 
+\index{motion\_controller@{motion\_controller}!clbk\_user\_interface@{clbk\_user\_interface}}
+\index{clbk\_user\_interface@{clbk\_user\_interface}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{clbk\_user\_interface()}{clbk\_user\_interface()}}
+{\footnotesize\ttfamily def motion\+\_\+controller.\+clbk\+\_\+user\+\_\+interface (\begin{DoxyParamCaption}\item[{}]{msg }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function waits for the 'user_interface' node's request to start 
+the simulation. When the request with correct msg structure is recieved,
+it start the robot's exploration by calling the 'exploration()' function. 
+
+Args: 
+    msg(Command): the input request message.
+    
+Returns: 
+    String \end{DoxyVerb}
+ \mbox{\Hypertarget{namespacemotion__controller_a06872e9e1457254fd970703b09251748}\label{namespacemotion__controller_a06872e9e1457254fd970703b09251748}} 
+\index{motion\_controller@{motion\_controller}!exploration@{exploration}}
+\index{exploration@{exploration}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{exploration()}{exploration()}}
+{\footnotesize\ttfamily def motion\+\_\+controller.\+exploration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function starts the robot's exploration in which robot visits all the
+three rooms in the environment. It initializes all the rooms, origin and 
+robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and
+P (1,1). After reaching in every room,  it request the 'hint_generator' node
+to provide the hint. Once hint is recieved, it request the 'oracle' node to 
+load the that hint in the ARMOR reasoner and then move to visit next room. 
+After visiting and reciving all the hints it start the reasoner to deduced 
+the hypotheses and to check if the hypotheses based on previous loaded hints is
+consistent or not. If the hints are consistent then the robotgo to the origin
+position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
+not consistent then the node will repeat the exploration.
+
+Args: 
+    none
+    
+Returns: 
+    String \end{DoxyVerb}
+ \mbox{\Hypertarget{namespacemotion__controller_a6166ed8edc1044e84dbd14b656004666}\label{namespacemotion__controller_a6166ed8edc1044e84dbd14b656004666}} 
+\index{motion\_controller@{motion\_controller}!main@{main}}
+\index{main@{main}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def motion\+\_\+controller.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This is a 'main' function of  'motion_controller' node. It initializes
+clients for '/request_hint' service hosted by 'hint_generator' node, and
+'/oracle_service' service which is hosted by 'oracle' node and lastly a 
+server for '/user_interface' service. Upon recieving request for 
+'/user_interface' service it calls the '/clbk_user_interface' function.  
+
+Args: 
+    none        
+    
+Returns: 
+    none\end{DoxyVerb}
+ \mbox{\Hypertarget{namespacemotion__controller_a1ede2d7edbe1ca7c923b778d319e39bc}\label{namespacemotion__controller_a1ede2d7edbe1ca7c923b778d319e39bc}} 
+\index{motion\_controller@{motion\_controller}!visit@{visit}}
+\index{visit@{visit}!motion\_controller@{motion\_controller}}
+\doxysubsubsection{\texorpdfstring{visit()}{visit()}}
+{\footnotesize\ttfamily def motion\+\_\+controller.\+visit (\begin{DoxyParamCaption}\item[{}]{current,  }\item[{}]{goal }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}This function controls the robot's movement during the simulation, making
+it move from one point to another in the environemnt. It takes to arguement
+current position of the robot and goal position of the robot. It calculate 
+the distance between to points and move robot in a way to reduce this distance. 
+
+Args: 
+    current(Point()): Current position of the robot. 
+    goal(Point()): Target position of the robot.        
+    
+Returns: 
+    Bool \end{DoxyVerb}
+ 

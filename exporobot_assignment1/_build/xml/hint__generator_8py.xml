@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="hint__generator_8py" kind="file" language="Python">
+    <compoundname>hint_generator.py</compoundname>
+    <innernamespace refid="namespacehint__generator">hint_generator</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacehint__generator" refkind="compound"><highlight class="comment">#!<sp/>/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">..<sp/>module::<sp/>hint_generator</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:platform:<sp/>Unix</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:synopsis:<sp/>Python<sp/>module<sp/>for<sp/>the<sp/>random<sp/>hint_generation.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">..<sp/>moduleauthor::<sp/>Shozab<sp/>Abid<sp/>hasanshozab10@gmail.com</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">This<sp/>node<sp/>controls<sp/>the<sp/>random<sp/>hint<sp/>generation<sp/>task.<sp/>It<sp/>waits<sp/>for<sp/>the<sp/>&apos;/request_hint&apos;<sp/>service&apos;s<sp/>request<sp/>from<sp/>the<sp/>motion<sp/>controller<sp/>node.<sp/>Upon<sp/>recieving<sp/>request<sp/>it<sp/>randomly<sp/>generates<sp/>the<sp/>hint<sp/>using<sp/>a<sp/>predefined<sp/>lists<sp/>of<sp/>hints<sp/>and<sp/>response<sp/>back<sp/>to<sp/>the<sp/>client<sp/>with<sp/>the<sp/>generated<sp/>hint.<sp/></highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">Service:</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>/request_hint</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>rospy</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>time</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>exporobot_assignment1.srv<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Hint,<sp/>HintResponse</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>std_msgs.msg<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>String</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>random<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>randint</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">people<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;Rev.<sp/>Green&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Prof.<sp/>Plum&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Col.<sp/>Mustard&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Mrs.<sp/>Peacock&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Miss.<sp/>Scarlett&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Mrs.<sp/>White&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;string[]:<sp/>Initializing<sp/>global<sp/>variable<sp/>&apos;people&apos;<sp/>array<sp/>which<sp/>is<sp/>one<sp/>of<sp/>the<sp/>type<sp/>of<sp/>hints.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">weapons<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;Candlestick&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Dagger&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Lead<sp/>Pipe&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Revolver&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Rope&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Spanner&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;string[]:<sp/>Initializing<sp/>global<sp/>variable<sp/>&apos;people&apos;<sp/>array<sp/>which<sp/>is<sp/>one<sp/>of<sp/>the<sp/>type<sp/>of<sp/>hints.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">places<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;Kitchen&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Lounge&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Library&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Hall&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;Study&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Ballroom&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;string[]:<sp/>Initializing<sp/>global<sp/>variable<sp/>&apos;people&apos;<sp/>array<sp/>which<sp/>one<sp/>of<sp/>the<sp/>type<sp/>of<sp/>hints.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacehint__generator_1ae046823668862946e05aba51b0819cc3" kindref="member">clbk_hint_generator</ref>(msg):</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>a<sp/>&apos;clbk_hint_generator&apos;<sp/>function<sp/>of<sp/>&apos;hint_generator&apos;<sp/>node.</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>function<sp/>waits<sp/>for<sp/>the<sp/>&apos;/request_hint&apos;<sp/>service&apos;s<sp/>request<sp/>from</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>motion<sp/>controller<sp/>node.<sp/>Upon<sp/>recieving<sp/>request<sp/>it<sp/>randomly<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>generates<sp/>the<sp/>hint<sp/>using<sp/>a<sp/>predefined<sp/>lists<sp/>of<sp/>hints<sp/>and<sp/>response</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>back<sp/>to<sp/>the<sp/>client<sp/>with<sp/>the<sp/>generated<sp/>hint.<sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg(Hint):<sp/>the<sp/>input<sp/>request<sp/>message.</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>string[]:<sp/>HintResponse()<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(msg.req<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;need_hint&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>time.sleep(2)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>randint(0,2)</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>x<sp/>==<sp/>0:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;who&apos;</highlight><highlight class="normal">,msg.hypo,people[randint(0,len(people)-1)]]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>x<sp/>==<sp/>1:</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;what&apos;</highlight><highlight class="normal">,msg.hypo,weapons[randint(0,len(weapons)-1)]]</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>x<sp/>==<sp/>2:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;where&apos;</highlight><highlight class="normal">,msg.hypo,places[randint(0,len(places)-1)]]</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&apos;Generated<sp/>Hint<sp/>:&apos;</highlight><highlight class="normal">,<sp/>hint)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>HintResponse(hint)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print(</highlight><highlight class="stringliteral">&quot;hint<sp/>request<sp/>msg<sp/>is<sp/>not<sp/>right.&quot;</highlight><highlight class="normal">,<sp/>msg.req)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>HintResponse([])</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacehint__generator_1a5083100fbe4ada96c66cf488cc7ccc51" kindref="member">main</ref>():</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>function<sp/>is<sp/>a<sp/>&apos;main&apos;<sp/>function<sp/>of<sp/><sp/>&apos;hint_generator&apos;<sp/>node.<sp/>It<sp/>initializes<sp/>server<sp/>for<sp/>&apos;/request_hint&apos;<sp/>service.</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:<sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>none</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>none<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>rospy.init_node(</highlight><highlight class="stringliteral">&apos;hint_generator&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>user_server<sp/>=<sp/>rospy.Service(</highlight><highlight class="stringliteral">&apos;/request_hint&apos;</highlight><highlight class="normal">,<sp/>Hint,<sp/>clbk_hint_generator)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>rospy.spin()</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&apos;__main__&apos;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacehint__generator_1a5083100fbe4ada96c66cf488cc7ccc51" kindref="member">main</ref>()</highlight></codeline>
+    </programlisting>
+    <location file="scripts/hint_generator.py"/>
+  </compounddef>
+</doxygen>
