@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to exporobotics_assignment1’s documentation! &mdash; exporobot_assignment1 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> exporobot_assignment1
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to exporobotics_assignment1’s documentation!</a><ul>
+<li><a class="reference internal" href="#indices">Indices</a></li>
+<li><a class="reference internal" href="#exporobotics-assignment1-s-documentation">exporobotics_assignment1’s documentation!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-scripts.user_interface">User Interface Module</a></li>
+<li><a class="reference internal" href="#module-scripts.motion_controller">Motion Controller Module</a></li>
+<li><a class="reference internal" href="#module-scripts.hint_generator">Hint Generation</a></li>
+<li><a class="reference internal" href="#module-scripts.oracle">Oracle</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">exporobot_assignment1</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Welcome to exporobotics_assignment1’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="welcome-to-exporobotics-assignment1-s-documentation">
+<h1>Welcome to exporobotics_assignment1’s documentation!<a class="headerlink" href="#welcome-to-exporobotics-assignment1-s-documentation" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="indices">
+<h2>Indices<a class="headerlink" href="#indices" title="Permalink to this headline"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="exporobotics-assignment1-s-documentation">
+<h2>exporobotics_assignment1’s documentation!<a class="headerlink" href="#exporobotics-assignment1-s-documentation" title="Permalink to this headline"></a></h2>
+<p>This is the documentation of the exporobotics_assignment1 package!</p>
+</div>
+</div>
+<div class="section" id="module-scripts.user_interface">
+<span id="user-interface-module"></span><h1>User Interface Module<a class="headerlink" href="#module-scripts.user_interface" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-user_interface"></span><p>This node is user interface of the project that communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request ‘/user interface’ service which is hosted by ‘motion_controller.py’ node to start the robot simuation.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/user_interface</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.user_interface.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.user_interface.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/user_interface.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.user_interface.main" title="Permalink to this definition"></a></dt>
+<dd><p>This is a ‘main’ function of ‘user_interface’ node. It initializes
+client for ‘/user_interface’ service hosted by <a class="reference internal" href="#module-motion_controller" title="motion_controller: Python module for the robot's motion controller (Unix)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">motion_controller</span></code></a>.</p>
+<p>Upon user’s request the message is passed to the service “user_interface”.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.motion_controller">
+<span id="motion-controller-module"></span><h1>Motion Controller Module<a class="headerlink" href="#module-scripts.motion_controller" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-motion_controller"></span><p>This node controls the robot motion in the simulation. It waits for the user_interface node’s request to start the simulation. When the request is recieved, it start the robot’s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the ‘hint_generator’ node to provide the hint. Once hint is recieved, it request the ‘oracle’ node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/request_hint
+/oracle_service
+/user_interface</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.motion_controller.clbk_user_interface">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">clbk_user_interface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/motion_controller.html#clbk_user_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.motion_controller.clbk_user_interface" title="Permalink to this definition"></a></dt>
+<dd><p>This function waits for the ‘user_interface’ node’s request to start
+the simulation. When the request with correct msg structure is recieved,
+it start the robot’s exploration by calling the ‘exploration()’ function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>Command</em>) – the input request message.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.motion_controller.exploration">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">exploration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/motion_controller.html#exploration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.motion_controller.exploration" title="Permalink to this definition"></a></dt>
+<dd><p>This function starts the robot’s exploration in which robot visits all the
+three rooms in the environment. It initializes all the rooms, origin and
+robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and
+P (1,1). After reaching in every room,  it request the ‘hint_generator’ node
+to provide the hint. Once hint is recieved, it request the ‘oracle’ node to
+load the that hint in the ARMOR reasoner and then move to visit next room.
+After visiting and reciving all the hints it start the reasoner to deduced
+the hypotheses and to check if the hypotheses based on previous loaded hints is
+consistent or not. If the hints are consistent then the robotgo to the origin
+position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
+not consistent then the node will repeat the exploration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>none</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.motion_controller.hypo_">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">hypo_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scripts.motion_controller.hypo_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘0’ for tracking the number of hypotheses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.motion_controller.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/motion_controller.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.motion_controller.main" title="Permalink to this definition"></a></dt>
+<dd><p>This is a ‘main’ function of  ‘motion_controller’ node. It initializes
+clients for ‘/request_hint’ service hosted by ‘hint_generator’ node, and
+‘/oracle_service’ service which is hosted by ‘oracle’ node and lastly a
+server for ‘/user_interface’ service. Upon recieving request for
+‘/user_interface’ service it calls the ‘/clbk_user_interface’ function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>none</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>none</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.motion_controller.req_hint_client_">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">req_hint_client_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scripts.motion_controller.req_hint_client_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘None’ for initializing ‘/request_hint’ service client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>rospy.ServiceProxy()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.motion_controller.req_oracle_client_">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">req_oracle_client_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scripts.motion_controller.req_oracle_client_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘None’ for initializing ‘/oracle_service’ service client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>rospy.ServiceProxy()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.motion_controller.visit">
+<span class="sig-prename descclassname"><span class="pre">scripts.motion_controller.</span></span><span class="sig-name descname"><span class="pre">visit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">current</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/motion_controller.html#visit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.motion_controller.visit" title="Permalink to this definition"></a></dt>
+<dd><p>This function controls the robot’s movement during the simulation, making
+it move from one point to another in the environemnt. It takes to arguement
+current position of the robot and goal position of the robot. It calculate
+the distance between to points and move robot in a way to reduce this distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>current</strong> (<em>Point</em><em>(</em><em>)</em>) – Current position of the robot.</p></li>
+<li><p><strong>goal</strong> (<em>Point</em><em>(</em><em>)</em>) – Target position of the robot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.hint_generator">
+<span id="hint-generation"></span><h1>Hint Generation<a class="headerlink" href="#module-scripts.hint_generator" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-hint_generator"></span><p>This node controls the random hint generation task. It waits for the ‘/request_hint’ service’s request from the motion controller node. Upon recieving request it randomly generates the hint using a predefined lists of hints and response back to the client with the generated hint.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/request_hint</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.hint_generator.clbk_hint_generator">
+<span class="sig-prename descclassname"><span class="pre">scripts.hint_generator.</span></span><span class="sig-name descname"><span class="pre">clbk_hint_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/hint_generator.html#clbk_hint_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.hint_generator.clbk_hint_generator" title="Permalink to this definition"></a></dt>
+<dd><p>This is a ‘clbk_hint_generator’ function of ‘hint_generator’ node.
+This function waits for the ‘/request_hint’ service’s request from
+the motion controller node. Upon recieving request it randomly
+generates the hint using a predefined lists of hints and response
+back to the client with the generated hint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>Hint</em>) – the input request message.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>HintResponse()</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string[]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.hint_generator.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.hint_generator.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/hint_generator.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.hint_generator.main" title="Permalink to this definition"></a></dt>
+<dd><p>This function is a ‘main’ function of  ‘hint_generator’ node. It initializes server for ‘/request_hint’ service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>none</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>none</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.hint_generator.people">
+<span class="sig-prename descclassname"><span class="pre">scripts.hint_generator.</span></span><span class="sig-name descname"><span class="pre">people</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Rev.</span> <span class="pre">Green',</span> <span class="pre">'Prof.</span> <span class="pre">Plum',</span> <span class="pre">'Col.</span> <span class="pre">Mustard',</span> <span class="pre">'Mrs.</span> <span class="pre">Peacock',</span> <span class="pre">'Miss.</span> <span class="pre">Scarlett',</span> <span class="pre">'Mrs.</span> <span class="pre">White']</span></em><a class="headerlink" href="#scripts.hint_generator.people" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable ‘people’ array which is one of the type of hints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string[]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.hint_generator.places">
+<span class="sig-prename descclassname"><span class="pre">scripts.hint_generator.</span></span><span class="sig-name descname"><span class="pre">places</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Kitchen',</span> <span class="pre">'Lounge',</span> <span class="pre">'Library',</span> <span class="pre">'Hall',</span> <span class="pre">'Study',</span> <span class="pre">'Ballroom']</span></em><a class="headerlink" href="#scripts.hint_generator.places" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable ‘people’ array which one of the type of hints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string[]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.hint_generator.weapons">
+<span class="sig-prename descclassname"><span class="pre">scripts.hint_generator.</span></span><span class="sig-name descname"><span class="pre">weapons</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Candlestick',</span> <span class="pre">'Dagger',</span> <span class="pre">'Lead</span> <span class="pre">Pipe',</span> <span class="pre">'Revolver',</span> <span class="pre">'Rope',</span> <span class="pre">'Spanner']</span></em><a class="headerlink" href="#scripts.hint_generator.weapons" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable ‘people’ array which is one of the type of hints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string[]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.oracle">
+<span id="oracle"></span><h1>Oracle<a class="headerlink" href="#module-scripts.oracle" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-oracle"></span><p>This node waits for ‘/oracle_service’ service request from the ‘motion_controller’ node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of ‘INCONSISTENT’ and ‘COMPLETE’ hypotheses. If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’ otherwise it respond with ‘False’.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/armor_interface_srv
+/oracle_service</p>
+</dd>
+</dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.oracle.armor_client_">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">armor_client_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scripts.oracle.armor_client_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘None’ for ‘/armor_interface_srv’ service client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>rospy.ServiceProxy()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.oracle.armor_req_">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">armor_req_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#scripts.oracle.armor_req_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘None’ for ‘/armor_interface_srv’ service request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>OracleResponse()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.oracle.clbk_oracle_service">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">clbk_oracle_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/oracle.html#clbk_oracle_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.oracle.clbk_oracle_service" title="Permalink to this definition"></a></dt>
+<dd><p>This function is a callback function of ‘/oracle_service’ node. It waits
+for ‘/oracle_service’ service request from the ‘motion_controller’ node.
+Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
+start the reasoner to deduced a hypotheses based on previously loaded hints and
+request ARMOR reasoner for the list of ‘INCONSISTENT’ and ‘COMPLETE’ hypotheses.
+If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’ otherwise
+it respond with ‘False’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>Oracle</em>) – the input request message.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.oracle.count_">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">count_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scripts.oracle.count_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘0’. It will be use for tracking the number hypotheses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.oracle.main">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/oracle.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.oracle.main" title="Permalink to this definition"></a></dt>
+<dd><p>This is a ‘main’ function of ‘oracle’ node. It initializes client for
+‘/armor_interface_srv’ service hosted by ‘armor’ package and server for
+‘/oracle_service’ service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>none</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>none</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.oracle.prev_comp_hypo_">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">prev_comp_hypo_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#scripts.oracle.prev_comp_hypo_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing global variable with ‘0’. It will be use for tracking the number complete hypotheses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Shozab Abidi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
