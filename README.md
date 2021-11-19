@@ -69,7 +69,13 @@ places = ['Kitchen','Lounge','Library','Hall','Study', 'Ballroom']
 After recieving the hint, the robot request the '/oracle_service' service which is hosted by oracle node to load the recently discovered hint in the AMOR reasonser. In response to this request, the robot recieve the confirmation feedback if the hint is successfully loaded in the reasoner. After that robot resume its exploration by visiting other rooms  and repeating the same setups of requesting services for getting hints and then later loading hints in the reasoner. Once the robot has visited all the rooms and collected all the hints then it once again request '/oracle_service' to starts the reasoner to deduced the hypotheses and then to check if the hypotheses based on recenlty loaded hints is conistent or not. If the hypotheses is found consistent then the robot visit the origin position O with coordinates (0,0) and print the hypotheses statement (e.g: “Prof. Plum with the Dagger in the Hall”) on the terminal screen, otherwise it repeats the exploration again starting from Room1.
 
 The oracle node itself used the '/armor_interface_srv' sevice which is hosted by ARMOR package. When it recieve the request from motion_controller node then it forward this request to the following service making itself working as a bridge between motion_controller and ARMOR package. The idea of having the oracle node in the first place is debatable but in this project the decision for having this node was taken for the purpose of clarity in software architecture and for assigning dedicated task to each node. 
-  
+
+## Project Simulation Demo:
+
+
+
+https://user-images.githubusercontent.com/61094879/142689717-7f9dfb4b-06da-45eb-93f6-3ed0d0d347f5.mp4
+
 ## Code Documentation:
 
 The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**.
