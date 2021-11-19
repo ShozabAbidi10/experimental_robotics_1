@@ -70,6 +70,10 @@ After recieving the hint, the robot request the '/oracle_service' service which 
 
 The oracle node itself used the '/armor_interface_srv' sevice which is hosted by ARMOR package. When it recieve the request from motion_controller node then it forward this request to the following service making itself working as a bridge between motion_controller and ARMOR package. The idea of having the oracle node in the first place is debatable but in this project the decision for having this node was taken for the purpose of clarity in software architecture and for assigning dedicated task to each node. 
   
+## Code Documentation:
+
+The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**.  
+  
 ## Contant Info: 
 1. Author: Shozab Abidi
 2. Email: hasanshozab10@gmail.com
