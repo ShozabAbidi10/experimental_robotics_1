@@ -1,0 +1,49 @@
+\hypertarget{hint__generator_8py}{}\doxysection{scripts/hint\+\_\+generator.py File Reference}
+\label{hint__generator_8py}\index{scripts/hint\_generator.py@{scripts/hint\_generator.py}}
+
+
+This file contains code for hint generator node.  
+
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacehint__generator}{hint\+\_\+generator}}
+\item 
+ \mbox{\hyperlink{namespaceexporobot__assignment1}{exporobot\+\_\+assignment1}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacehint__generator_ae046823668862946e05aba51b0819cc3}{hint\+\_\+generator.\+clbk\+\_\+hint\+\_\+generator}} (msg)
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}clbk\+\_\+hint\+\_\+generator\textquotesingle{} function of \mbox{\hyperlink{namespacehint__generator}{hint\+\_\+generator}} node. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacehint__generator_a5083100fbe4ada96c66cf488cc7ccc51}{hint\+\_\+generator.\+main}} ()
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}main\textquotesingle{} function of \mbox{\hyperlink{namespacehint__generator}{hint\+\_\+generator}} node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+list \mbox{\hyperlink{namespacehint__generator_a69f0f8e568bf411b31f712575d8d218c}{hint\+\_\+generator.\+people}}
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}people\textquotesingle{} list which one of the type of hints. \end{DoxyCompactList}\item 
+list \mbox{\hyperlink{namespacehint__generator_a1dbb92e1a3c3c7ff83bfa4a2f3beac26}{hint\+\_\+generator.\+weapons}}
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}people\textquotesingle{} list which one of the type of hints. \end{DoxyCompactList}\item 
+list \mbox{\hyperlink{namespacehint__generator_a707cf401b59f240d233f2acbcd4f34cb}{hint\+\_\+generator.\+places}} = \mbox{[}\textquotesingle{}Kitchen\textquotesingle{},\textquotesingle{}Lounge\textquotesingle{},\textquotesingle{}Library\textquotesingle{},\textquotesingle{}Hall\textquotesingle{},\textquotesingle{}Study\textquotesingle{}, \textquotesingle{}Ballroom\textquotesingle{}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}people\textquotesingle{} list which one of the type of hints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains code for hint generator node. 
+
+\begin{DoxyAuthor}{Author}
+Shozab Abidi 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+15/11/2021
+\end{DoxyDate}
+Service \+: ~\newline
+ ° /request\+\_\+hint
+
+This node controls the random hint generation task. It waits for the \textquotesingle{}/request\+\_\+hint\textquotesingle{} service\textquotesingle{}s request from the motion controller node. Upon recieving request it randomly generates the hint using a predefined lists of hints and response back to the client with the generated hint. ~\newline
+ 

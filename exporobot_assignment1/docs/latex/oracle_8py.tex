@@ -1,0 +1,50 @@
+\hypertarget{oracle_8py}{}\doxysection{scripts/oracle.py File Reference}
+\label{oracle_8py}\index{scripts/oracle.py@{scripts/oracle.py}}
+
+
+This file contains code for oracle node.  
+
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceoracle}{oracle}}
+\item 
+ \mbox{\hyperlink{namespaceexporobot__assignment1}{exporobot\+\_\+assignment1}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceoracle_aa735a42390262a1f132c09f8da62c672}{oracle.\+clbk\+\_\+oracle\+\_\+service}} (msg)
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}clbk\+\_\+oracle\+\_\+service\textquotesingle{} function of oracle node. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}{oracle.\+main}} ()
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}main\textquotesingle{} function of oracle node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceoracle_addce41b61949c1690d281f4c1975f7a3}{oracle.\+armor\+\_\+client\+\_\+}} = None
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}armor\+\_\+client\+\_\+\textquotesingle{} with \textquotesingle{}None\textquotesingle{} for \textquotesingle{}/armor\+\_\+interface\+\_\+srv\textquotesingle{} service client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceoracle_a87b22ca0c3581cf74c93f324d2e14a75}{oracle.\+armor\+\_\+req\+\_\+}} = None
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}armor\+\_\+req\+\_\+\textquotesingle{} with \textquotesingle{}None\textquotesingle{} for \textquotesingle{}/armor\+\_\+interface\+\_\+srv\textquotesingle{} service request. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceoracle_a913e90668d431057307a71422817e20f}{oracle.\+count\+\_\+}} = 0
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}count\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}{oracle.\+prev\+\_\+comp\+\_\+hypo\+\_\+}} = 0
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}prev\+\_\+comp\+\_\+hypo\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains code for oracle node. 
+
+\begin{DoxyAuthor}{Author}
+Shozab Abidi 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+15/11/2021
+\end{DoxyDate}
+Service \+: ~\newline
+ ° /armor\+\_\+interface\+\_\+srv ° /oracle\+\_\+service
+
+This node waits for \textquotesingle{}/oracle\+\_\+service\textquotesingle{} service request from the \textquotesingle{}\mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}}\textquotesingle{} node. Based on the type of recieved request it loads the hint in the A\+R\+M\+OR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request A\+R\+M\+OR reasoner for the list of \textquotesingle{}I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} and \textquotesingle{}C\+O\+M\+P\+L\+E\+TE\textquotesingle{} hypotheses. If the recently deduced hypotheses is \textquotesingle{}C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} it respond with \textquotesingle{}True\textquotesingle{} otherwise it respond with \textquotesingle{}False\textquotesingle{}. 

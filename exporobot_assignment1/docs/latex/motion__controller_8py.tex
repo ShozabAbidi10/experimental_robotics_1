@@ -1,0 +1,52 @@
+\hypertarget{motion__controller_8py}{}\doxysection{scripts/motion\+\_\+controller.py File Reference}
+\label{motion__controller_8py}\index{scripts/motion\_controller.py@{scripts/motion\_controller.py}}
+
+
+This file contains code for controlling motion of the robot.  
+
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}}
+\item 
+ \mbox{\hyperlink{namespaceexporobot__assignment1}{exporobot\+\_\+assignment1}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacemotion__controller_a8e4b6f09ea71a26ca3628d4cdd012d96}{motion\+\_\+controller.\+clbk\+\_\+user\+\_\+interface}} (msg)
+\begin{DoxyCompactList}\small\item\em This is a callback function for \textquotesingle{}\textbackslash{}user\+\_\+interface\textquotesingle{} service. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacemotion__controller_a06872e9e1457254fd970703b09251748}{motion\+\_\+controller.\+exploration}} ()
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}exploration\textquotesingle{} function of \mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}} node. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacemotion__controller_a1ede2d7edbe1ca7c923b778d319e39bc}{motion\+\_\+controller.\+visit}} (current, goal)
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}visit\textquotesingle{} function of \mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}} node. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespacemotion__controller_a6166ed8edc1044e84dbd14b656004666}{motion\+\_\+controller.\+main}} ()
+\begin{DoxyCompactList}\small\item\em This is a \textquotesingle{}main\textquotesingle{} function of \mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}} node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacemotion__controller_a1fe30b92dd990da6392e9122aee9b7bb}{motion\+\_\+controller.\+req\+\_\+hint\+\_\+client\+\_\+}} = None
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}req\+\_\+hint\+\_\+client\+\_\+\textquotesingle{} with \textquotesingle{}None\textquotesingle{} for \textquotesingle{}/request\+\_\+hint\textquotesingle{} client. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacemotion__controller_aff80e336ed5aca44d2ea2c49f027d04a}{motion\+\_\+controller.\+req\+\_\+oracle\+\_\+client\+\_\+}} = None
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}req\+\_\+oracle\+\_\+client\+\_\+\textquotesingle{} with \textquotesingle{}None\textquotesingle{} for \textquotesingle{}/oracle\+\_\+service\textquotesingle{} client. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespacemotion__controller_a154554f0fc5ed1e0f10cadf281dd8bbc}{motion\+\_\+controller.\+hypo\+\_\+}} = 0
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}hypo\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{} for tracking the number of hypotheses. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains code for controlling motion of the robot. 
+
+\begin{DoxyAuthor}{Author}
+Shozab Abidi 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+15/11/2021
+\end{DoxyDate}
+Service \+: ~\newline
+ ° /request\+\_\+hint ° /oracle\+\_\+service ° /user\+\_\+interface
+
+This node controls the robot motion in the simulation. It waits for the \mbox{\hyperlink{namespaceuser__interface}{user\+\_\+interface}} node\textquotesingle{}s request to start the simulation. When the request is recieved, it start the robot\textquotesingle{}s exploration in which robot visits all the three rooms in the environment. All rooms coordinates are predefined\+: R1(2,0) R2(0,2) R3(-\/2,0). Robot start the exploration from initial position P(1,1). After reaching in every room, it request the \textquotesingle{}\mbox{\hyperlink{namespacehint__generator}{hint\+\_\+generator}}\textquotesingle{} node to provide the hint. Once hint is recieved, it request the \textquotesingle{}oracle\textquotesingle{} node to load the that hint in the A\+R\+M\+OR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. 
