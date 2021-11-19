@@ -1,45 +1,62 @@
 #! /usr/bin/env python
 
-## @package exporobot_assignment1
-# \file hint_generator.py
-# \brief This file contains code for hint generator node.
-# \author Shozab Abidi
-# \version 1.0
-# \date 14/11/2021
-#
-# \details
-#
-# Subscribes : <BR>
-# 	° /
-# 	° /
-#
-# Publishers : <BR>
-# 	° /
-# 	° /
-# 	° /
-#   ° /
-#
-# Service : <BR>
-# 	° /
-#
-# This node control the robot motion. 
-# 1. Wait for the hint request from the motion controller node.
-# 2. Randomly generate hints from the known list of hints.
-# 3. Response to the request with generated hint.  
-  
+"""
+.. module:: hint_generator
+	:platform: Unix
+	:synopsis: Python module for the random hint_generation.
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node controls the random hint generation task. It waits for the '/request_hint' service's request from the motion controller node. Upon recieving request it randomly generates the hint using a predefined lists of hints and response back to the client with the generated hint. 
+
+
+Service:
+	/request_hint
+	
+"""
+
 import rospy
 import time
 from exporobot_assignment1.srv import Hint, HintResponse
 from std_msgs.msg import String
 from random import randint
 
+ 
 people = ['Rev. Green','Prof. Plum','Col. Mustard','Mrs. Peacock',
 						'Miss. Scarlett', 'Mrs. White']
+"""string[]: Initializing global variable 'people' array which is one of the type of hints.
+
+"""
+
 weapons = ['Candlestick','Dagger','Lead Pipe','Revolver',
 						'Rope', 'Spanner']
+"""string[]: Initializing global variable 'people' array which is one of the type of hints.
+
+"""
+
 places = ['Kitchen','Lounge','Library','Hall','Study', 'Ballroom']
-  
+"""string[]: Initializing global variable 'people' array which one of the type of hints.
+
+"""
+
 def clbk_hint_generator(msg):
+
+	"""
+	
+	This is a 'clbk_hint_generator' function of 'hint_generator' node.
+	This function waits for the '/request_hint' service's request from
+	the motion controller node. Upon recieving request it randomly 
+	generates the hint using a predefined lists of hints and response
+	back to the client with the generated hint. 
+	
+	Args: 
+		msg(Hint): the input request message.
+		
+	Returns: 
+		string[]: HintResponse() 
+	
+	"""	
+	
 	if (msg.req == "need_hint"):
 		time.sleep(2)
 		x = randint(0,2)
@@ -61,9 +78,21 @@ def clbk_hint_generator(msg):
 		
 
 def main():
-    rospy.init_node('hint_generator')
-    user_server = rospy.Service('/request_hint', Hint, clbk_hint_generator)
-    rospy.spin()
+
+	"""
+		
+	This function is a 'main' function of  'hint_generator' node. It initializes server for '/request_hint' service.
+	
+	Args: 
+		none
+				
+	Returns: 
+		none 	
+			
+	"""				
+	rospy.init_node('hint_generator')
+	user_server = rospy.Service('/request_hint', Hint, clbk_hint_generator)
+	rospy.spin()
 
 if __name__ == '__main__':
     main()

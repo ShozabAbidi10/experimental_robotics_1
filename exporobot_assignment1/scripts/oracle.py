@@ -1,36 +1,67 @@
 #! /usr/bin/env python2
 
-## @package exporobot_assignment1
-# \file oracle.py
-# \brief This file contains code for oracle node.
-# \author Shozab Abidi
-# \version 1.0
-# \date 13/11/2021
-#
-# \details
-#
-# Service : <BR>
-# ° /armor_interface_srv
-# ° /oracle_service
-# 
-# This node performs the following tasks: 
-# 1. It waits for the request from the motion_controller node to load the hypothesis in the reasonser.
-# 2. Start the reasonser and check consistency of the hypothesis.
-# 3. Response to the request with a boolen response 'True' if the requested task was achieved or 'False' otherwise.  
+"""
+.. module:: oracle
+	:platform: Unix
+	:synopsis: Python module for the oracle
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'.
+
+Service:
+	/armor_interface_srv
+	/oracle_service
+	
+"""
+
 
 import rospy
 import time
 from exporobot_assignment1.srv import Oracle,OracleResponse
 from armor_msgs.srv import ArmorDirective,ArmorDirectiveRequest
 
+
 armor_client_ = None
+"""rospy.ServiceProxy(): Initializing global variable with 'None' for '/armor_interface_srv' service client.
+
+"""
+
 armor_req_ = None
+"""OracleResponse(): Initializing global variable with 'None' for '/armor_interface_srv' service request.
+
+"""
 
 count_ = 0
-prev_comp_hypo_ = 0
+"""Int: Initializing global variable with '0'. It will be use for tracking the number hypotheses.
 
+"""
+
+prev_comp_hypo_ = 0
+"""Int: Initializing global variable with '0'. It will be use for tracking the number complete hypotheses.
+
+"""
 
 def clbk_oracle_service(msg):
+	
+	"""
+	
+	This function is a callback function of '/oracle_service' node. It waits 
+	for '/oracle_service' service request from the 'motion_controller' node. 
+	Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
+	start the reasoner to deduced a hypotheses based on previously loaded hints and 
+	request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. 
+	If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise
+	it respond with 'False'. 
+	
+	Args: 
+		msg(Oracle): the input request message.
+		
+	Returns: 
+		Bool 
+	
+	"""	
+		
 	global count_
 	global armor_req_
 	global armor_res_
@@ -189,6 +220,21 @@ def clbk_oracle_service(msg):
 	
 
 def main():
+	
+	"""
+	
+	This is a 'main' function of 'oracle' node. It initializes client for
+	'/armor_interface_srv' service hosted by 'armor' package and server for
+	'/oracle_service' service. 
+	
+	Args: 
+		none
+		
+	Returns: 
+		none 
+	
+	"""	
+
 	global armor_client_
 	rospy.init_node('oracle')
 	oracle_server = rospy.Service('/oracle_service', Oracle, clbk_oracle_service)

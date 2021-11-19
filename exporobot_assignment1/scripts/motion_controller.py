@@ -1,55 +1,95 @@
 #! /usr/bin/env python
 
-## @package exporobot_assignment1
-# \file motion_controller.py
-# \brief This file contains code for controlling motion of the robot.
-# \author Shozab Abidi
-# \version 1.0
-# \date 13/11/2021
-#
-# \details
-#
-# Service : <BR>
-# ° /request_hint
-# ° /oracle_service
-# ° /user_interface
-#
-# This node control the robot motion. 
-# 1. This node wait for the user_interface node to request to start the exploration. 
-# 2. When the request is recieved, it start the while loop in which it make robot to visit all the three rooms. 
-# 3. All the three rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1)
-# 4. After reaching every room coordinates, it request the oracle node to give the hint. 
-# 5. After visiting and reciving all the hints it start the reasoner. 
-# 6. Then it check if the hypothesis based on previous loaded hints is consistent or not. 
-# 7. If the hints are consistent then it go to the origin position O(0,0) and print the statement. 
-# 8. Ask the user_interface node to ask user to again do the exploration. 
-# 9. If the hypothesis is not consistent then it will continue the exploration again. 
+
+"""
+.. module:: motion_controller
+	:platform: Unix
+	:synopsis: Python module for the robot's motion controller
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node controls the robot motion in the simulation. It waits for the user_interface node's request to start the simulation. When the request is recieved, it start the robot's exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the 'hint_generator' node to provide the hint. Once hint is recieved, it request the 'oracle' node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. 
   
   
+Service:
+	/request_hint
+	/oracle_service
+	/user_interface
+
+"""
+
 import rospy
 import time
 from exporobot_assignment1.srv import Command, CommandResponse
 from exporobot_assignment1.srv import Hint, HintResponse 
 from exporobot_assignment1.srv import Oracle
-
 from std_msgs.msg import String
 from geometry_msgs.msg import Point
 
 req_hint_client_ = None
+"""rospy.ServiceProxy(): Initializing global variable with 'None' for initializing '/request_hint' service client.
+
+"""
+
 req_oracle_client_ = None
+"""rospy.ServiceProxy(): Initializing global variable with 'None' for initializing '/oracle_service' service client.
+
+"""
+
 hypo_ = 0
+"""Int: Initializing global variable with '0' for tracking the number of hypotheses.
+
+"""  
+
   
 def clbk_user_interface(msg):
 	
+	"""
+	
+	This function waits for the 'user_interface' node's request to start 
+	the simulation. When the request with correct msg structure is recieved,
+	it start the robot's exploration by calling the 'exploration()' function. 
+	
+	Args: 
+		msg(Command): the input request message.
+		
+	Returns: 
+		String 
+	
+	"""
+	
 	if (msg.req == "start"):
-		 time.sleep(5)
-		 
+		 time.sleep(5) 
 		 return exploration()
 	else:
 		print("req msg is not right.", msg.req)
 		return CommandResponse("not done")
+
 		
 def exploration():
+
+	"""
+	
+	This function starts the robot's exploration in which robot visits all the
+	three rooms in the environment. It initializes all the rooms, origin and 
+	robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and
+	P (1,1). After reaching in every room,  it request the 'hint_generator' node
+	to provide the hint. Once hint is recieved, it request the 'oracle' node to 
+	load the that hint in the ARMOR reasoner and then move to visit next room. 
+	After visiting and reciving all the hints it start the reasoner to deduced 
+	the hypotheses and to check if the hypotheses based on previous loaded hints is
+	consistent or not. If the hints are consistent then the robotgo to the origin
+	position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
+	not consistent then the node will repeat the exploration.
+
+	Args: 
+		none
+		
+	Returns: 
+		String 
+	
+	"""
+
 	global hypo_
 	who = "none"
 	what = "none"
@@ -208,8 +248,25 @@ def exploration():
 					rospy.loginfo('Hypothesis found inconistence. Repeating the exploration.')
 		
 		hypo_ += 1
-	
+		
+		
 def visit(current,goal):
+
+	"""
+	
+	This function controls the robot's movement during the simulation, making
+	it move from one point to another in the environemnt. It takes to arguement
+	current position of the robot and goal position of the robot. It calculate 
+	the distance between to points and move robot in a way to reduce this distance. 
+	
+	Args: 
+		current(Point()): Current position of the robot. 
+		goal(Point()): Target position of the robot. 		
+		
+	Returns: 
+		Bool 
+	
+	"""
 
 	curr_pos = Point()
 	curr_pos.x, curr_pos.y =  current.x,current.y
@@ -235,9 +292,26 @@ def visit(current,goal):
 		return True
 	else:
 		return False
-	
+
 	
 def main():
+
+	"""
+	
+	This is a 'main' function of  'motion_controller' node. It initializes
+	clients for '/request_hint' service hosted by 'hint_generator' node, and
+	'/oracle_service' service which is hosted by 'oracle' node and lastly a 
+	server for '/user_interface' service. Upon recieving request for 
+	'/user_interface' service it calls the '/clbk_user_interface' function.  
+	
+	Args: 
+		none		
+		
+	Returns: 
+		none
+	
+	"""
+
 	global req_hint_client_
 	global req_oracle_client_
 	rospy.init_node('motion_controller')

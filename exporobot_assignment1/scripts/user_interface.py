@@ -1,26 +1,19 @@
 #! /usr/bin/env python
 
-## @package exporobot_assignment1
-# \file user_interface.py
-# \brief This file contains code for 'user_interface' node.
-# \author Shozab Abidi
-# \version 1.0
-# \date 13/11/2021
-#
-# \details
-#
-# Subscribes : <BR>
-# 	° /odom
-# 	° /control_speed
-#
-# Publishers : <BR>
-# 	° /odom
-#
-# Service : <BR>
-# 	° /go_to_point
-#
-# This node is user interface of a 2D robot simulation project.
-#
+
+"""
+.. module:: user_interface
+	:platform: Unix
+	:synopsis: Python module for the user Interface
+
+.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
+
+This node is user interface of the project that communicates with the user and as per the provided commands, instruct the system to behave accordingly. If the user press 1 in the terminal, it request '/user interface' service which is hosted by 'motion_controller.py' node to start the robot simuation.
+
+Service:
+	/user_interface
+
+"""
 
 import rospy
 import time
@@ -28,17 +21,16 @@ from exporobot_assignment1.srv import Command
 from std_msgs.msg import String
 
 
-##
-# \brief This is a 'main' function of user_interface node. 
-# 
-# \return [none].
-#
-# This function is a 'main' function of  'user_interface' node. It initializes client for '/user_interface'
-# service hosted by 'state_machine' node and subscriber for the 'user_interface_sig' topic. Upon 
-# user's request it send the signal to the 'state_machine' node to state the 'random target position
-# 'state simulation. 
-#
 def main():
+	"""
+
+	This is a 'main' function of 'user_interface' node. It initializes
+	client for '/user_interface' service hosted by :mod:`motion_controller`. 
+	
+	Upon user's request the message is passed to the service "user_interface".
+
+	"""
+	
 	rospy.init_node('user_interface')
 	user_client = rospy.ServiceProxy('/user_interface', Command)
 	rate = rospy.Rate(10)
