@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.hint_generator &mdash; exporobot_assignment1 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> exporobot_assignment1
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">exporobot_assignment1</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>scripts.hint_generator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.hint_generator</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: hint_generator</span>
+<span class="sd">	:platform: Unix</span>
+<span class="sd">	:synopsis: Python module for the random hint_generation.</span>
+
+<span class="sd">.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com</span>
+
+<span class="sd">This node controls the random hint generation task. It waits for the &#39;/request_hint&#39; service&#39;s request from the motion controller node. Upon recieving request it randomly generates the hint using a predefined lists of hints and response back to the client with the generated hint. </span>
+
+
+<span class="sd">Service:</span>
+<span class="sd">	/request_hint</span>
+<span class="sd">	</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Hint</span><span class="p">,</span> <span class="n">HintResponse</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+ 
+<span class="n">people</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rev. Green&#39;</span><span class="p">,</span><span class="s1">&#39;Prof. Plum&#39;</span><span class="p">,</span><span class="s1">&#39;Col. Mustard&#39;</span><span class="p">,</span><span class="s1">&#39;Mrs. Peacock&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;Miss. Scarlett&#39;</span><span class="p">,</span> <span class="s1">&#39;Mrs. White&#39;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;string[]: Initializing global variable &#39;people&#39; array which is one of the type of hints.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">weapons</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Candlestick&#39;</span><span class="p">,</span><span class="s1">&#39;Dagger&#39;</span><span class="p">,</span><span class="s1">&#39;Lead Pipe&#39;</span><span class="p">,</span><span class="s1">&#39;Revolver&#39;</span><span class="p">,</span>
+						<span class="s1">&#39;Rope&#39;</span><span class="p">,</span> <span class="s1">&#39;Spanner&#39;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;string[]: Initializing global variable &#39;people&#39; array which is one of the type of hints.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">places</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Kitchen&#39;</span><span class="p">,</span><span class="s1">&#39;Lounge&#39;</span><span class="p">,</span><span class="s1">&#39;Library&#39;</span><span class="p">,</span><span class="s1">&#39;Hall&#39;</span><span class="p">,</span><span class="s1">&#39;Study&#39;</span><span class="p">,</span> <span class="s1">&#39;Ballroom&#39;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;string[]: Initializing global variable &#39;people&#39; array which one of the type of hints.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="clbk_hint_generator"><a class="viewcode-back" href="../../index.html#scripts.hint_generator.clbk_hint_generator">[docs]</a><span class="k">def</span> <span class="nf">clbk_hint_generator</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	</span>
+<span class="sd">	This is a &#39;clbk_hint_generator&#39; function of &#39;hint_generator&#39; node.</span>
+<span class="sd">	This function waits for the &#39;/request_hint&#39; service&#39;s request from</span>
+<span class="sd">	the motion controller node. Upon recieving request it randomly </span>
+<span class="sd">	generates the hint using a predefined lists of hints and response</span>
+<span class="sd">	back to the client with the generated hint. </span>
+<span class="sd">	</span>
+<span class="sd">	Args: </span>
+<span class="sd">		msg(Hint): the input request message.</span>
+<span class="sd">		</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		string[]: HintResponse() </span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>	
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">req</span> <span class="o">==</span> <span class="s2">&quot;need_hint&quot;</span><span class="p">):</span>
+		<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">hint</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;who&#39;</span><span class="p">,</span><span class="n">msg</span><span class="o">.</span><span class="n">hypo</span><span class="p">,</span><span class="n">people</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">people</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]]</span>
+
+		<span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">hint</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;what&#39;</span><span class="p">,</span><span class="n">msg</span><span class="o">.</span><span class="n">hypo</span><span class="p">,</span><span class="n">weapons</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">weapons</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]]</span>
+
+		<span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+			<span class="n">hint</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;where&#39;</span><span class="p">,</span><span class="n">msg</span><span class="o">.</span><span class="n">hypo</span><span class="p">,</span><span class="n">places</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">places</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]]</span>
+			
+		<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generated Hint :&#39;</span><span class="p">,</span> <span class="n">hint</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">HintResponse</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span>
+		  
+	<span class="k">else</span><span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hint request msg is not right.&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">req</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">HintResponse</span><span class="p">([])</span></div>
+		
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../index.html#scripts.hint_generator.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		</span>
+<span class="sd">	This function is a &#39;main&#39; function of  &#39;hint_generator&#39; node. It initializes server for &#39;/request_hint&#39; service.</span>
+<span class="sd">	</span>
+<span class="sd">	Args: </span>
+<span class="sd">		none</span>
+<span class="sd">				</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		none 	</span>
+<span class="sd">			</span>
+<span class="sd">	&quot;&quot;&quot;</span>				
+	<span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;hint_generator&#39;</span><span class="p">)</span>
+	<span class="n">user_server</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="s1">&#39;/request_hint&#39;</span><span class="p">,</span> <span class="n">Hint</span><span class="p">,</span> <span class="n">clbk_hint_generator</span><span class="p">)</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Shozab Abidi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
