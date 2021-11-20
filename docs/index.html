@@ -107,7 +107,7 @@ client for ‘/user_interface’ service hosted by <a class="reference internal"
 </div>
 <div class="section" id="module-scripts.motion_controller">
 <span id="motion-controller-module"></span><h1>Motion Controller Module<a class="headerlink" href="#module-scripts.motion_controller" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-motion_controller"></span><p>This node controls the robot motion in the simulation. It waits for the user_interface node’s request to start the simulation. When the request is recieved, it start the robot’s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the ‘hint_generator’ node to provide the hint. Once hint is recieved, it request the ‘oracle’ node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration.</p>
+<span class="target" id="module-motion_controller"></span><p>This node controls the robot motion in the simulation. It waits for the user_interface node’s request to start the simulation. When the request is recieved, it start the robot’s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the ‘hint_generator’ node to provide the hint. Once hint is recieved, it request the ‘oracle’ node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robot go to the origin position O(0,0) and check hypotheses correctness. Hypotheses is correct if it is consistence and belong to a predefined list of hypotheses in oracle node. If hypotheses is also correct then print the hypotheses statement. Incase if the hypothesis is inconsistent or incorrect then the robot will repeat the exploration.</p>
 <dl class="simple">
 <dt>Service:</dt><dd><p>/request_hint
 /oracle_service
@@ -140,10 +140,13 @@ P (1,1). After reaching in every room,  it request the ‘hint_generator’ node
 to provide the hint. Once hint is recieved, it request the ‘oracle’ node to
 load the that hint in the ARMOR reasoner and then move to visit next room.
 After visiting and reciving all the hints it start the reasoner to deduced
-the hypotheses and to check if the hypotheses based on previous loaded hints is
-consistent or not. If the hints are consistent then the robotgo to the origin
-position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
-not consistent then the node will repeat the exploration.</p>
+the hypotheses and to check if the hypotheses based on previous loaded hints
+is consistent or not. If the hints are consistent then the robot go to the
+origin position O(0,0) and check hypotheses correctness. Hypotheses is correct
+if it is consistence and belong to a predefined list of hypotheses in oracle
+node. If hypotheses is also correct then print the hypotheses statement. Incase
+if the hypothesis is inconsistent or incorrect then the robot will repeat the
+exploration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>none</strong> – </p>
@@ -304,7 +307,7 @@ back to the client with the generated hint.</p>
 </div>
 <div class="section" id="module-scripts.oracle">
 <span id="oracle"></span><h1>Oracle<a class="headerlink" href="#module-scripts.oracle" title="Permalink to this headline"></a></h1>
-<span class="target" id="module-oracle"></span><p>This node waits for ‘/oracle_service’ service request from the ‘motion_controller’ node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of ‘INCONSISTENT’ and ‘COMPLETE’ hypotheses. If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’ otherwise it respond with ‘False’.</p>
+<span class="target" id="module-oracle"></span><p>This node waits for ‘/oracle_service’ service request from the ‘motion_controller’ node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of ‘INCONSISTENT’ and ‘COMPLETE’ hypotheses. If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’ otherwise it respond with ‘False’. Similarly if the hypotheses is ‘CONSISTENT’ then the user request this node to check if the hypotheses is also ‘CORRECT’. A hypotheses correct if it is ‘CONSISTENT’ and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with ‘True’ otherewise ‘False’</p>
 <dl class="simple">
 <dt>Service:</dt><dd><p>/armor_interface_srv
 /oracle_service</p>
@@ -340,14 +343,29 @@ for ‘/oracle_service’ service request from the ‘motion_controller’ node.
 Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
 start the reasoner to deduced a hypotheses based on previously loaded hints and
 request ARMOR reasoner for the list of ‘INCONSISTENT’ and ‘COMPLETE’ hypotheses.
-If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’ otherwise
-it respond with ‘False’.</p>
+If the recently deduced hypotheses is ‘CONSISTENT’ it respond with ‘True’
+otherwise it respond with ‘False’. Similarly if the hypotheses is ‘CONSISTENT’
+then the user request this node to check if the hypotheses is also ‘CORRECT’.
+A hypotheses correct if it is ‘CONSISTENT’ and belong to a predefined list of
+correct hypotheses in oracle node. If hypotheses is also correct then the node
+respond back with ‘True’ otherewise ‘False’</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>msg</strong> (<em>Oracle</em>) – the input request message.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.oracle.correct_hypotheses_">
+<span class="sig-prename descclassname"><span class="pre">scripts.oracle.</span></span><span class="sig-name descname"><span class="pre">correct_hypotheses_</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[['Prof.</span> <span class="pre">Plum',</span> <span class="pre">'Revolver',</span> <span class="pre">'Ballroom'],</span> <span class="pre">['Rev.</span> <span class="pre">Green',</span> <span class="pre">'Rope',</span> <span class="pre">'Hall'],</span> <span class="pre">['Col.</span> <span class="pre">Mustard',</span> <span class="pre">'Dagger',</span> <span class="pre">'Lounge'],</span> <span class="pre">['Mrs.</span> <span class="pre">White',</span> <span class="pre">'Spanner',</span> <span class="pre">'Library'],</span> <span class="pre">['Mrs.</span> <span class="pre">Peacock',</span> <span class="pre">'Lead</span> <span class="pre">Pipe',</span> <span class="pre">'Study'],</span> <span class="pre">['Miss.</span> <span class="pre">Scarlett',</span> <span class="pre">'Candlestick',</span> <span class="pre">'Kitchen']]</span></em><a class="headerlink" href="#scripts.oracle.correct_hypotheses_" title="Permalink to this definition"></a></dt>
+<dd><p>Initializing correct hypotheses array. It will be use for checking the correctness of deduced hypotheses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string[]</p>
 </dd>
 </dl>
 </dd></dl>
