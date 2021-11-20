@@ -72,7 +72,7 @@ The oracle node itself used the '/armor_interface_srv' sevice which is hosted by
 
 ## Project Simulation Demo:
 
-https://user-images.githubusercontent.com/61094879/142689717-7f9dfb4b-06da-45eb-93f6-3ed0d0d347f5.mp4
+https://user-images.githubusercontent.com/61094879/142734090-305dbd75-fc06-49ff-b726-deb3692156a3.mp4
 
 ## Code Documentation:
 
