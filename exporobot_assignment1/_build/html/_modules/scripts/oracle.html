@@ -71,7 +71,7 @@
 
 <span class="sd">.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com</span>
 
-<span class="sd">This node waits for &#39;/oracle_service&#39; service request from the &#39;motion_controller&#39; node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of &#39;INCONSISTENT&#39; and &#39;COMPLETE&#39; hypotheses. If the recently deduced hypotheses is &#39;CONSISTENT&#39; it respond with &#39;True&#39; otherwise it respond with &#39;False&#39;.</span>
+<span class="sd">This node waits for &#39;/oracle_service&#39; service request from the &#39;motion_controller&#39; node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of &#39;INCONSISTENT&#39; and &#39;COMPLETE&#39; hypotheses. If the recently deduced hypotheses is &#39;CONSISTENT&#39; it respond with &#39;True&#39; otherwise it respond with &#39;False&#39;. Similarly if the hypotheses is &#39;CONSISTENT&#39; then the user request this node to check if the hypotheses is also &#39;CORRECT&#39;. A hypotheses correct if it is &#39;CONSISTENT&#39; and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with &#39;True&#39; otherewise &#39;False&#39;</span>
 
 <span class="sd">Service:</span>
 <span class="sd">	/armor_interface_srv</span>
@@ -79,11 +79,10 @@
 <span class="sd">	</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-
 <span class="kn">import</span> <span class="nn">rospy</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Oracle</span><span class="p">,</span><span class="n">OracleResponse</span>
-<span class="kn">from</span> <span class="nn">armor_msgs.srv</span> <span class="kn">import</span> <span class="n">ArmorDirective</span><span class="p">,</span><span class="n">ArmorDirectiveRequest</span>
+<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Oracle</span><span class="p">,</span> <span class="n">OracleResponse</span>
+<span class="kn">from</span> <span class="nn">armor_msgs.srv</span> <span class="kn">import</span> <span class="n">ArmorDirective</span><span class="p">,</span> <span class="n">ArmorDirectiveRequest</span>
 
 
 <span class="n">armor_client_</span> <span class="o">=</span> <span class="kc">None</span>
@@ -106,6 +105,17 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="n">correct_hypotheses_</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Prof. Plum&#39;</span><span class="p">,</span><span class="s1">&#39;Revolver&#39;</span><span class="p">,</span><span class="s1">&#39;Ballroom&#39;</span><span class="p">],[</span><span class="s1">&#39;Rev. Green&#39;</span><span class="p">,</span><span class="s1">&#39;Rope&#39;</span><span class="p">,</span><span class="s1">&#39;Hall&#39;</span><span class="p">],[</span><span class="s1">&#39;Col. Mustard&#39;</span><span class="p">,</span><span class="s1">&#39;Dagger&#39;</span><span class="p">,</span><span class="s1">&#39;Lounge&#39;</span><span class="p">],[</span><span class="s1">&#39;Mrs. White&#39;</span><span class="p">,</span><span class="s1">&#39;Spanner&#39;</span><span class="p">,</span><span class="s1">&#39;Library&#39;</span><span class="p">],[</span><span class="s1">&#39;Mrs. Peacock&#39;</span><span class="p">,</span><span class="s1">&#39;Lead Pipe&#39;</span><span class="p">,</span><span class="s1">&#39;Study&#39;</span><span class="p">],[</span><span class="s1">&#39;Miss. Scarlett&#39;</span><span class="p">,</span><span class="s1">&#39;Candlestick&#39;</span><span class="p">,</span><span class="s1">&#39;Kitchen&#39;</span><span class="p">]]</span>
+<span class="sd">&quot;&quot;&quot;string[]: Initializing correct hypotheses array. It will be use for checking the correctness of deduced hypotheses.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">who_</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+<span class="n">where_</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+<span class="n">what_</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+
+
+
 <div class="viewcode-block" id="clbk_oracle_service"><a class="viewcode-back" href="../../index.html#scripts.oracle.clbk_oracle_service">[docs]</a><span class="k">def</span> <span class="nf">clbk_oracle_service</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 	
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -115,8 +125,12 @@
 <span class="sd">	Based on the type of recieved request, it loads the hint in the ARMOR reasonser,</span>
 <span class="sd">	start the reasoner to deduced a hypotheses based on previously loaded hints and </span>
 <span class="sd">	request ARMOR reasoner for the list of &#39;INCONSISTENT&#39; and &#39;COMPLETE&#39; hypotheses. </span>
-<span class="sd">	If the recently deduced hypotheses is &#39;CONSISTENT&#39; it respond with &#39;True&#39; otherwise</span>
-<span class="sd">	it respond with &#39;False&#39;. </span>
+<span class="sd">	If the recently deduced hypotheses is &#39;CONSISTENT&#39; it respond with &#39;True&#39; </span>
+<span class="sd">	otherwise it respond with &#39;False&#39;. Similarly if the hypotheses is &#39;CONSISTENT&#39;</span>
+<span class="sd">	then the user request this node to check if the hypotheses is also &#39;CORRECT&#39;. </span>
+<span class="sd">	A hypotheses correct if it is &#39;CONSISTENT&#39; and belong to a predefined list of </span>
+<span class="sd">	correct hypotheses in oracle node. If hypotheses is also correct then the node</span>
+<span class="sd"> 	respond back with &#39;True&#39; otherewise &#39;False&#39;</span>
 <span class="sd">	</span>
 <span class="sd">	Args: </span>
 <span class="sd">		msg(Oracle): the input request message.</span>
@@ -130,6 +144,9 @@
 	<span class="k">global</span> <span class="n">armor_req_</span>
 	<span class="k">global</span> <span class="n">armor_res_</span>
 	<span class="k">global</span> <span class="n">prev_comp_hypo_</span>
+	<span class="k">global</span> <span class="n">who_</span> 
+	<span class="k">global</span> <span class="n">where_</span>
+	<span class="k">global</span> <span class="n">what_</span> 
 	
 	<span class="k">if</span><span class="p">(</span><span class="n">count_</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
 		<span class="n">count_</span> <span class="o">+=</span> <span class="mi">1</span>	
@@ -147,6 +164,8 @@
 		
 	<span class="k">if</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span> <span class="ow">and</span> <span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
 		
+		
+		<span class="n">who_</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 		<span class="c1"># loading the hint in the reasoner.</span>
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg.command :&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
 		<span class="c1">##print(&quot;msg.command :&quot;, msg.args)</span>
@@ -178,6 +197,7 @@
 		
 	<span class="k">elif</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;what&quot;</span> <span class="ow">and</span> <span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
 		
+		<span class="n">what_</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 		<span class="c1"># loading the hint in the reasoner.</span>
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg.command :&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
 		
@@ -210,6 +230,7 @@
 		
 		<span class="c1"># loading the hint in the reasoner.</span>
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg.command :&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
+		<span class="n">where_</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 		
 		<span class="n">armor_req_</span><span class="o">.</span><span class="n">armor_request</span><span class="o">.</span><span class="n">client_name</span> <span class="o">=</span> <span class="s1">&#39;tutorial&#39;</span>
 		<span class="n">armor_req_</span><span class="o">.</span><span class="n">armor_request</span><span class="o">.</span><span class="n">reference_name</span> <span class="o">=</span> <span class="s1">&#39;ontoTest&#39;</span>
@@ -253,8 +274,7 @@
 		
 		<span class="k">if</span><span class="p">(</span><span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
 			<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-		
-	<span class="k">elif</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;CONSISTENT&quot;</span> <span class="ow">and</span> <span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+	<span class="k">elif</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;COMPLETED&quot;</span> <span class="ow">and</span> <span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
 		
 		<span class="c1"># Starting the reasoner</span>
 		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg.command :&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
@@ -277,11 +297,20 @@
 			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PREVIOUS COMPLETE HYPOTHESIS :&quot;</span><span class="p">,</span> <span class="n">prev_comp_hypo_</span><span class="p">)</span>
 			
 			<span class="k">if</span><span class="p">(</span><span class="n">new_comp_hypo</span> <span class="o">&gt;</span> <span class="n">prev_comp_hypo_</span><span class="p">):</span>
-				<span class="n">prev_comp_hypo_</span> <span class="o">=</span> 	<span class="n">new_comp_hypo</span>		
+				<span class="n">prev_comp_hypo_</span> <span class="o">=</span> <span class="n">new_comp_hypo</span>		
 				<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 			<span class="k">else</span><span class="p">:</span>
-				<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
-	
+				<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>	
+				
+	<span class="k">elif</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;CORRECTNESS&quot;</span> <span class="ow">and</span> <span class="n">armor_res_</span><span class="o">.</span><span class="n">armor_response</span><span class="o">.</span><span class="n">success</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>	
+		
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;msg.command :&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
+		<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">correct_hypotheses_</span><span class="p">)):</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">who_</span> <span class="o">==</span> <span class="n">correct_hypotheses_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">what_</span> <span class="o">==</span> <span class="n">correct_hypotheses_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">where_</span> <span class="o">==</span> <span class="n">correct_hypotheses_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]):</span>
+				<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="n">OracleResponse</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../index.html#scripts.oracle.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 	
