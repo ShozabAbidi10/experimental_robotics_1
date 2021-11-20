@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>exporobotics_assignment1: oracle Namespace Reference</title>
+<title>exporobot_assignment1: oracle Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,10 +21,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">exporobotics_assignment1
+   <div id="projectname">exporobot_assignment1
    &#160;<span id="projectnumber">1.0</span>
    </div>
-   <div id="projectbrief">Package for the assignment of the Experimental Robotics course.</div>
+   <div id="projectbrief">Project for the Experimental Robotics course assignment1</div>
   </td>
  </tr>
  </tbody>
@@ -94,6 +94,14 @@ Variables</h2></td></tr>
 <tr class="memitem:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#aa6b49d1aff1291557fe00d73caf4c83f">prev_comp_hypo_</a> = 0</td></tr>
 <tr class="memdesc:aa6b49d1aff1291557fe00d73caf4c83f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing global variable 'prev_comp_hypo_' with '0'.  <a href="namespaceoracle.html#aa6b49d1aff1291557fe00d73caf4c83f">More...</a><br /></td></tr>
 <tr class="separator:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b85f054233cd6491b418cd5b9acc25"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a50b85f054233cd6491b418cd5b9acc25">correct_hypotheses_</a> = [['Prof. Plum','Revolver','Ballroom'],['Rev. Green','Rope','Hall'],['Col. Mustard','Dagger','Lounge'],['Mrs. White','Spanner','Library'],['Mrs. Peacock','Lead Pipe','Study'],['Miss. Scarlett','Candlestick','Kitchen']]</td></tr>
+<tr class="separator:a50b85f054233cd6491b418cd5b9acc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a9c2f5ca64c9598a13bf298352d3a2032">who_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b5178f5615fd9713ea2042b35b9541"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#ac9b5178f5615fd9713ea2042b35b9541">where_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:ac9b5178f5615fd9713ea2042b35b9541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a849031e6980630408646af78a6ee5dc7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a849031e6980630408646af78a6ee5dc7">what_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:a849031e6980630408646af78a6ee5dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aa735a42390262a1f132c09f8da62c672"></a>
@@ -114,7 +122,7 @@ Variables</h2></td></tr>
 
 <p>This is a 'clbk_oracle_service' function of oracle node. </p>
 <dl class="section return"><dt>Returns</dt><dd>Bool</dd></dl>
-<p>This function is a callback function of '/oracle_service' node. It waits for '/oracle_service' service request from the '<a class="el" href="namespacemotion__controller.html">motion_controller</a>' node. Based on the type of recieved request, it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False' </p>
+<p>This function is a callback function of '/oracle_service' node. It waits for '/oracle_service' service request from the '<a class="el" href="namespacemotion__controller.html">motion_controller</a>' node. Based on the type of recieved request, it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'COMPLETE' hypotheses. If the hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT' then the user request this node to check if the hypotheses is also 'CORRECT'. A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of correct hypotheses in this node. If hypotheses is also correct then the node respond back with 'True' otherewise 'False' </p>
 
 </div>
 </div>
@@ -172,6 +180,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a50b85f054233cd6491b418cd5b9acc25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b85f054233cd6491b418cd5b9acc25">&#9670;&nbsp;</a></span>correct_hypotheses_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">list oracle.correct_hypotheses_ = [['Prof. Plum','Revolver','Ballroom'],['Rev. Green','Rope','Hall'],['Col. Mustard','Dagger','Lounge'],['Mrs. White','Spanner','Library'],['Mrs. Peacock','Lead Pipe','Study'],['Miss. Scarlett','Candlestick','Kitchen']]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a913e90668d431057307a71422817e20f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a913e90668d431057307a71422817e20f">&#9670;&nbsp;</a></span>count_</h2>
 
@@ -201,6 +223,48 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initializing global variable 'prev_comp_hypo_' with '0'. </p>
+
+</div>
+</div>
+<a id="a849031e6980630408646af78a6ee5dc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a849031e6980630408646af78a6ee5dc7">&#9670;&nbsp;</a></span>what_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string oracle.what_ = &quot;none&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac9b5178f5615fd9713ea2042b35b9541"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9b5178f5615fd9713ea2042b35b9541">&#9670;&nbsp;</a></span>where_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string oracle.where_ = &quot;none&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c2f5ca64c9598a13bf298352d3a2032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c2f5ca64c9598a13bf298352d3a2032">&#9670;&nbsp;</a></span>who_</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string oracle.who_ = &quot;none&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>exporobotics_assignment1: scripts/oracle.py File Reference</title>
+<title>exporobot_assignment1: scripts/oracle.py File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,10 +21,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">exporobotics_assignment1
+   <div id="projectname">exporobot_assignment1
    &#160;<span id="projectnumber">1.0</span>
    </div>
-   <div id="projectbrief">Package for the assignment of the Experimental Robotics course.</div>
+   <div id="projectbrief">Project for the Experimental Robotics course assignment1</div>
   </td>
  </tr>
  </tbody>
@@ -109,6 +109,14 @@ Variables</h2></td></tr>
 <tr class="memitem:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#aa6b49d1aff1291557fe00d73caf4c83f">oracle.prev_comp_hypo_</a> = 0</td></tr>
 <tr class="memdesc:aa6b49d1aff1291557fe00d73caf4c83f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing global variable 'prev_comp_hypo_' with '0'.  <a href="namespaceoracle.html#aa6b49d1aff1291557fe00d73caf4c83f">More...</a><br /></td></tr>
 <tr class="separator:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b85f054233cd6491b418cd5b9acc25"><td class="memItemLeft" align="right" valign="top">list&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a50b85f054233cd6491b418cd5b9acc25">oracle.correct_hypotheses_</a> = [['Prof. Plum','Revolver','Ballroom'],['Rev. Green','Rope','Hall'],['Col. Mustard','Dagger','Lounge'],['Mrs. White','Spanner','Library'],['Mrs. Peacock','Lead Pipe','Study'],['Miss. Scarlett','Candlestick','Kitchen']]</td></tr>
+<tr class="separator:a50b85f054233cd6491b418cd5b9acc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a9c2f5ca64c9598a13bf298352d3a2032">oracle.who_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b5178f5615fd9713ea2042b35b9541"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#ac9b5178f5615fd9713ea2042b35b9541">oracle.where_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:ac9b5178f5615fd9713ea2042b35b9541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a849031e6980630408646af78a6ee5dc7"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceoracle.html#a849031e6980630408646af78a6ee5dc7">oracle.what_</a> = &quot;none&quot;</td></tr>
+<tr class="separator:a849031e6980630408646af78a6ee5dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file contains code for oracle node. </p>
@@ -117,7 +125,7 @@ Variables</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>15/11/2021</dd></dl>
 <p>Service : <br  />
  ° /armor_interface_srv ° /oracle_service</p>
-<p>This node waits for '/oracle_service' service request from the '<a class="el" href="namespacemotion__controller.html">motion_controller</a>' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. </p>
+<p>This node waits for '/oracle_service' service request from the '<a class="el" href="namespacemotion__controller.html">motion_controller</a>' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT' then the user request this node to check if the hypotheses is also 'CORRECT'. A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with 'True' otherewise 'False' </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
