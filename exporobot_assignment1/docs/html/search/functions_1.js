@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exploration_39',['exploration',['../namespacemotion__controller.html#a06872e9e1457254fd970703b09251748',1,'motion_controller']]]
+  ['exploration_43',['exploration',['../namespacemotion__controller.html#a06872e9e1457254fd970703b09251748',1,'motion_controller']]]
 ];
