@@ -17,7 +17,15 @@ def \mbox{\hyperlink{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}{main}} (
 int \mbox{\hyperlink{namespaceoracle_a913e90668d431057307a71422817e20f}{count\+\_\+}} = 0
 \begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}count\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}{prev\+\_\+comp\+\_\+hypo\+\_\+}} = 0
-\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}prev\+\_\+comp\+\_\+hypo\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializing global variable \textquotesingle{}prev\+\_\+comp\+\_\+hypo\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. \end{DoxyCompactList}\item 
+list \mbox{\hyperlink{namespaceoracle_a50b85f054233cd6491b418cd5b9acc25}{correct\+\_\+hypotheses\+\_\+}} = \mbox{[}\mbox{[}\textquotesingle{}Prof. Plum\textquotesingle{},\textquotesingle{}Revolver\textquotesingle{},\textquotesingle{}Ballroom\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Rev. Green\textquotesingle{},\textquotesingle{}Rope\textquotesingle{},\textquotesingle{}Hall\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Col. Mustard\textquotesingle{},\textquotesingle{}Dagger\textquotesingle{},\textquotesingle{}Lounge\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. White\textquotesingle{},\textquotesingle{}Spanner\textquotesingle{},\textquotesingle{}Library\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. Peacock\textquotesingle{},\textquotesingle{}Lead Pipe\textquotesingle{},\textquotesingle{}Study\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Miss. Scarlett\textquotesingle{},\textquotesingle{}Candlestick\textquotesingle{},\textquotesingle{}Kitchen\textquotesingle{}\mbox{]}\mbox{]}
+\item 
+string \mbox{\hyperlink{namespaceoracle_a9c2f5ca64c9598a13bf298352d3a2032}{who\+\_\+}} = \char`\"{}none\char`\"{}
+\item 
+string \mbox{\hyperlink{namespaceoracle_ac9b5178f5615fd9713ea2042b35b9541}{where\+\_\+}} = \char`\"{}none\char`\"{}
+\item 
+string \mbox{\hyperlink{namespaceoracle_a849031e6980630408646af78a6ee5dc7}{what\+\_\+}} = \char`\"{}none\char`\"{}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -34,7 +42,7 @@ This is a \textquotesingle{}clbk\+\_\+oracle\+\_\+service\textquotesingle{} func
 \begin{DoxyReturn}{Returns}
 Bool
 \end{DoxyReturn}
-This function is a callback function of \textquotesingle{}/oracle\+\_\+service\textquotesingle{} node. It waits for \textquotesingle{}/oracle\+\_\+service\textquotesingle{} service request from the \textquotesingle{}\mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}}\textquotesingle{} node. Based on the type of recieved request, it loads the hint in the A\+R\+M\+OR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request A\+R\+M\+OR reasoner for the list of \textquotesingle{}I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} and \textquotesingle{}C\+O\+M\+P\+L\+E\+TE\textquotesingle{} hypotheses. If the recently deduced hypotheses is \textquotesingle{}C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} it respond with \textquotesingle{}True\textquotesingle{} otherwise it respond with \textquotesingle{}False\textquotesingle{} \mbox{\Hypertarget{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}\label{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}} 
+This function is a callback function of \textquotesingle{}/oracle\+\_\+service\textquotesingle{} node. It waits for \textquotesingle{}/oracle\+\_\+service\textquotesingle{} service request from the \textquotesingle{}\mbox{\hyperlink{namespacemotion__controller}{motion\+\_\+controller}}\textquotesingle{} node. Based on the type of recieved request, it loads the hint in the A\+R\+M\+OR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request A\+R\+M\+OR reasoner for the list of \textquotesingle{}C\+O\+M\+P\+L\+E\+TE\textquotesingle{} hypotheses. If the hypotheses is \textquotesingle{}C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} it respond with \textquotesingle{}True\textquotesingle{} otherwise it respond with \textquotesingle{}False\textquotesingle{}. Similarly if the hypotheses is \textquotesingle{}C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} then the user request this node to check if the hypotheses is also \textquotesingle{}C\+O\+R\+R\+E\+CT\textquotesingle{}. A hypotheses correct if it is \textquotesingle{}C\+O\+N\+S\+I\+S\+T\+E\+NT\textquotesingle{} and belong to a predefined list of correct hypotheses in this node. If hypotheses is also correct then the node respond back with \textquotesingle{}True\textquotesingle{} otherewise \textquotesingle{}False\textquotesingle{} \mbox{\Hypertarget{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}\label{namespaceoracle_a5ac7249c0bad890a9f43d54c5b413399}} 
 \index{oracle@{oracle}!main@{main}}
 \index{main@{main}!oracle@{oracle}}
 \doxysubsubsection{\texorpdfstring{main()}{main()}}
@@ -70,6 +78,12 @@ Initializing global variable \textquotesingle{}armor\+\_\+client\+\_\+\textquote
 
 Initializing global variable \textquotesingle{}armor\+\_\+req\+\_\+\textquotesingle{} with \textquotesingle{}None\textquotesingle{} for \textquotesingle{}/armor\+\_\+interface\+\_\+srv\textquotesingle{} service request. 
 
+\mbox{\Hypertarget{namespaceoracle_a50b85f054233cd6491b418cd5b9acc25}\label{namespaceoracle_a50b85f054233cd6491b418cd5b9acc25}} 
+\index{oracle@{oracle}!correct\_hypotheses\_@{correct\_hypotheses\_}}
+\index{correct\_hypotheses\_@{correct\_hypotheses\_}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{correct\_hypotheses\_}{correct\_hypotheses\_}}
+{\footnotesize\ttfamily list oracle.\+correct\+\_\+hypotheses\+\_\+ = \mbox{[}\mbox{[}\textquotesingle{}Prof. Plum\textquotesingle{},\textquotesingle{}Revolver\textquotesingle{},\textquotesingle{}Ballroom\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Rev. Green\textquotesingle{},\textquotesingle{}Rope\textquotesingle{},\textquotesingle{}Hall\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Col. Mustard\textquotesingle{},\textquotesingle{}Dagger\textquotesingle{},\textquotesingle{}Lounge\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. White\textquotesingle{},\textquotesingle{}Spanner\textquotesingle{},\textquotesingle{}Library\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. Peacock\textquotesingle{},\textquotesingle{}Lead Pipe\textquotesingle{},\textquotesingle{}Study\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Miss. Scarlett\textquotesingle{},\textquotesingle{}Candlestick\textquotesingle{},\textquotesingle{}Kitchen\textquotesingle{}\mbox{]}\mbox{]}}
+
 \mbox{\Hypertarget{namespaceoracle_a913e90668d431057307a71422817e20f}\label{namespaceoracle_a913e90668d431057307a71422817e20f}} 
 \index{oracle@{oracle}!count\_@{count\_}}
 \index{count\_@{count\_}!oracle@{oracle}}
@@ -89,4 +103,22 @@ Initializing global variable \textquotesingle{}count\+\_\+\textquotesingle{} wit
 
 
 Initializing global variable \textquotesingle{}prev\+\_\+comp\+\_\+hypo\+\_\+\textquotesingle{} with \textquotesingle{}0\textquotesingle{}. 
+
+\mbox{\Hypertarget{namespaceoracle_a849031e6980630408646af78a6ee5dc7}\label{namespaceoracle_a849031e6980630408646af78a6ee5dc7}} 
+\index{oracle@{oracle}!what\_@{what\_}}
+\index{what\_@{what\_}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{what\_}{what\_}}
+{\footnotesize\ttfamily string oracle.\+what\+\_\+ = \char`\"{}none\char`\"{}}
+
+\mbox{\Hypertarget{namespaceoracle_ac9b5178f5615fd9713ea2042b35b9541}\label{namespaceoracle_ac9b5178f5615fd9713ea2042b35b9541}} 
+\index{oracle@{oracle}!where\_@{where\_}}
+\index{where\_@{where\_}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{where\_}{where\_}}
+{\footnotesize\ttfamily string oracle.\+where\+\_\+ = \char`\"{}none\char`\"{}}
+
+\mbox{\Hypertarget{namespaceoracle_a9c2f5ca64c9598a13bf298352d3a2032}\label{namespaceoracle_a9c2f5ca64c9598a13bf298352d3a2032}} 
+\index{oracle@{oracle}!who\_@{who\_}}
+\index{who\_@{who\_}!oracle@{oracle}}
+\doxysubsubsection{\texorpdfstring{who\_}{who\_}}
+{\footnotesize\ttfamily string oracle.\+who\+\_\+ = \char`\"{}none\char`\"{}}
 
