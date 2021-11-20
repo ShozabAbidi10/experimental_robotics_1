@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="29" column="1" bodyfile="scripts/motion_controller.py" bodystart="29" bodyend="-1"/>
+        <location file="scripts/motion_controller.py" line="28" column="1" bodyfile="scripts/motion_controller.py" bodystart="28" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacemotion__controller_1aff80e336ed5aca44d2ea2c49f027d04a" prot="public" static="no" mutable="no">
         <type></type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="34" column="1" bodyfile="scripts/motion_controller.py" bodystart="34" bodyend="-1"/>
+        <location file="scripts/motion_controller.py" line="33" column="1" bodyfile="scripts/motion_controller.py" bodystart="33" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacemotion__controller_1a154554f0fc5ed1e0f10cadf281dd8bbc" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="39" column="1" bodyfile="scripts/motion_controller.py" bodystart="39" bodyend="-1"/>
+        <location file="scripts/motion_controller.py" line="38" column="1" bodyfile="scripts/motion_controller.py" bodystart="38" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -71,7 +71,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="45" column="1" bodyfile="scripts/motion_controller.py" bodystart="45" bodyend="68"/>
+        <location file="scripts/motion_controller.py" line="44" column="1" bodyfile="scripts/motion_controller.py" bodystart="44" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="namespacemotion__controller_1a06872e9e1457254fd970703b09251748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>def</type>
@@ -88,10 +88,13 @@ P (1,1). After reaching in every room,  it request the &apos;hint_generator&apos
 to provide the hint. Once hint is recieved, it request the &apos;oracle&apos; node to 
 load the that hint in the ARMOR reasoner and then move to visit next room. 
 After visiting and reciving all the hints it start the reasoner to deduced 
-the hypotheses and to check if the hypotheses based on previous loaded hints is
-consistent or not. If the hints are consistent then the robotgo to the origin
-position O(0,0) and print the hypotheses statement. Incase if the hypothesis is
-not consistent then the node will repeat the exploration.
+the hypotheses and to check if the hypotheses based on previous loaded hints
+is consistent or not. If the hints are consistent then the robot go to the 
+origin position O(0,0) and check hypotheses correctness. Hypotheses is correct
+if it is consistence and belong to a predefined list of hypotheses in oracle 
+node. If hypotheses is also correct then print the hypotheses statement. Incase
+if the hypothesis is inconsistent or incorrect then the robot will repeat the 
+exploration. 
 
 Args: 
     none
@@ -101,7 +104,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="69" column="1" bodyfile="scripts/motion_controller.py" bodystart="69" bodyend="252"/>
+        <location file="scripts/motion_controller.py" line="68" column="1" bodyfile="scripts/motion_controller.py" bodystart="68" bodyend="262"/>
       </memberdef>
       <memberdef kind="function" id="namespacemotion__controller_1a1ede2d7edbe1ca7c923b778d319e39bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>def</type>
@@ -133,7 +136,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="253" column="1" bodyfile="scripts/motion_controller.py" bodystart="253" bodyend="296"/>
+        <location file="scripts/motion_controller.py" line="263" column="1" bodyfile="scripts/motion_controller.py" bodystart="263" bodyend="306"/>
       </memberdef>
       <memberdef kind="function" id="namespacemotion__controller_1a6166ed8edc1044e84dbd14b656004666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>def</type>
@@ -157,7 +160,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/motion_controller.py" line="297" column="1" bodyfile="scripts/motion_controller.py" bodystart="297" bodyend="322"/>
+        <location file="scripts/motion_controller.py" line="307" column="1" bodyfile="scripts/motion_controller.py" bodystart="307" bodyend="332"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -169,8 +172,7 @@ Returns:
 
 .. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
 
-This node controls the robot motion in the simulation. It waits for the user_interface node&apos;s request to start the simulation. When the request is recieved, it start the robot&apos;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &apos;hint_generator&apos; node to provide the hint. Once hint is recieved, it request the &apos;oracle&apos; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. 
-  
+This node controls the robot motion in the simulation. It waits for the user_interface node&apos;s request to start the simulation. When the request is recieved, it start the robot&apos;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &apos;hint_generator&apos; node to provide the hint. Once hint is recieved, it request the &apos;oracle&apos; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robot go to the origin position O(0,0) and check hypotheses correctness. Hypotheses is correct if it is consistence and belong to a predefined list of hypotheses in oracle node. If hypotheses is also correct then print the hypotheses statement. Incase if the hypothesis is inconsistent or incorrect then the robot will repeat the exploration.   
   
 Service:
 /request_hint

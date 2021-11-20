@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="25" column="1" bodyfile="scripts/oracle.py" bodystart="25" bodyend="-1"/>
+        <location file="scripts/oracle.py" line="24" column="1" bodyfile="scripts/oracle.py" bodystart="24" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceoracle_1a87b22ca0c3581cf74c93f324d2e14a75" prot="public" static="no" mutable="no">
         <type></type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="30" column="1" bodyfile="scripts/oracle.py" bodystart="30" bodyend="-1"/>
+        <location file="scripts/oracle.py" line="29" column="1" bodyfile="scripts/oracle.py" bodystart="29" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceoracle_1a913e90668d431057307a71422817e20f" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="35" column="1" bodyfile="scripts/oracle.py" bodystart="35" bodyend="-1"/>
+        <location file="scripts/oracle.py" line="34" column="1" bodyfile="scripts/oracle.py" bodystart="34" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceoracle_1aa6b49d1aff1291557fe00d73caf4c83f" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -57,7 +57,63 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="40" column="1" bodyfile="scripts/oracle.py" bodystart="40" bodyend="-1"/>
+        <location file="scripts/oracle.py" line="39" column="1" bodyfile="scripts/oracle.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1a50b85f054233cd6491b418cd5b9acc25" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list oracle.correct_hypotheses_</definition>
+        <argsstring></argsstring>
+        <name>correct_hypotheses_</name>
+        <initializer>=  [[&apos;Prof. Plum&apos;,&apos;Revolver&apos;,&apos;Ballroom&apos;],[&apos;Rev. Green&apos;,&apos;Rope&apos;,&apos;Hall&apos;],[&apos;Col. Mustard&apos;,&apos;Dagger&apos;,&apos;Lounge&apos;],[&apos;Mrs. White&apos;,&apos;Spanner&apos;,&apos;Library&apos;],[&apos;Mrs. Peacock&apos;,&apos;Lead Pipe&apos;,&apos;Study&apos;],[&apos;Miss. Scarlett&apos;,&apos;Candlestick&apos;,&apos;Kitchen&apos;]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="44" column="1" bodyfile="scripts/oracle.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1a9c2f5ca64c9598a13bf298352d3a2032" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string oracle.who_</definition>
+        <argsstring></argsstring>
+        <name>who_</name>
+        <initializer>=  &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="49" column="1" bodyfile="scripts/oracle.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1ac9b5178f5615fd9713ea2042b35b9541" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string oracle.where_</definition>
+        <argsstring></argsstring>
+        <name>where_</name>
+        <initializer>=  &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="50" column="1" bodyfile="scripts/oracle.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceoracle_1a849031e6980630408646af78a6ee5dc7" prot="public" static="no" mutable="no">
+        <type>string</type>
+        <definition>string oracle.what_</definition>
+        <argsstring></argsstring>
+        <name>what_</name>
+        <initializer>=  &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="scripts/oracle.py" line="51" column="1" bodyfile="scripts/oracle.py" bodystart="51" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -78,8 +134,12 @@ for &apos;/oracle_service&apos; service request from the &apos;motion_controller
 Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
 start the reasoner to deduced a hypotheses based on previously loaded hints and 
 request ARMOR reasoner for the list of &apos;INCONSISTENT&apos; and &apos;COMPLETE&apos; hypotheses. 
-If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; otherwise
-it respond with &apos;False&apos;. 
+If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; 
+otherwise it respond with &apos;False&apos;. Similarly if the hypotheses is &apos;CONSISTENT&apos;
+then the user request this node to check if the hypotheses is also &apos;CORRECT&apos;. 
+A hypotheses correct if it is &apos;CONSISTENT&apos; and belong to a predefined list of 
+correct hypotheses in oracle node. If hypotheses is also correct then the node
+respond back with &apos;True&apos; otherewise &apos;False&apos;
 
 Args: 
     msg(Oracle): the input request message.
@@ -89,7 +149,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="45" column="1" bodyfile="scripts/oracle.py" bodystart="45" bodyend="221"/>
+        <location file="scripts/oracle.py" line="55" column="1" bodyfile="scripts/oracle.py" bodystart="55" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="namespaceoracle_1a5ac7249c0bad890a9f43d54c5b413399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>def</type>
@@ -111,7 +171,7 @@ Returns:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/oracle.py" line="222" column="1" bodyfile="scripts/oracle.py" bodystart="222" bodyend="243"/>
+        <location file="scripts/oracle.py" line="251" column="1" bodyfile="scripts/oracle.py" bodystart="251" bodyend="272"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -123,7 +183,7 @@ Returns:
 
 .. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
 
-This node waits for &apos;/oracle_service&apos; service request from the &apos;motion_controller&apos; node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of &apos;INCONSISTENT&apos; and &apos;COMPLETE&apos; hypotheses. If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; otherwise it respond with &apos;False&apos;.
+This node waits for &apos;/oracle_service&apos; service request from the &apos;motion_controller&apos; node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of &apos;INCONSISTENT&apos; and &apos;COMPLETE&apos; hypotheses. If the recently deduced hypotheses is &apos;CONSISTENT&apos; it respond with &apos;True&apos; otherwise it respond with &apos;False&apos;. Similarly if the hypotheses is &apos;CONSISTENT&apos; then the user request this node to check if the hypotheses is also &apos;CORRECT&apos;. A hypotheses correct if it is &apos;CONSISTENT&apos; and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with &apos;True&apos; otherewise &apos;False&apos;
 
 Service:
 /armor_interface_srv

@@ -18,7 +18,7 @@ Upon user&apos;s request the message is passed to the service &quot;user_interfa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="scripts/user_interface.py" line="24" column="1" bodyfile="scripts/user_interface.py" bodystart="24" bodyend="46"/>
+        <location file="scripts/user_interface.py" line="24" column="1" bodyfile="scripts/user_interface.py" bodystart="24" bodyend="45"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

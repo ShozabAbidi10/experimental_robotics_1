@@ -41,6 +41,10 @@
     <member refid="namespaceoracle_1a87b22ca0c3581cf74c93f324d2e14a75" kind="variable"><name>armor_req_</name></member>
     <member refid="namespaceoracle_1a913e90668d431057307a71422817e20f" kind="variable"><name>count_</name></member>
     <member refid="namespaceoracle_1aa6b49d1aff1291557fe00d73caf4c83f" kind="variable"><name>prev_comp_hypo_</name></member>
+    <member refid="namespaceoracle_1a50b85f054233cd6491b418cd5b9acc25" kind="variable"><name>correct_hypotheses_</name></member>
+    <member refid="namespaceoracle_1a9c2f5ca64c9598a13bf298352d3a2032" kind="variable"><name>who_</name></member>
+    <member refid="namespaceoracle_1ac9b5178f5615fd9713ea2042b35b9541" kind="variable"><name>where_</name></member>
+    <member refid="namespaceoracle_1a849031e6980630408646af78a6ee5dc7" kind="variable"><name>what_</name></member>
     <member refid="namespaceoracle_1aa735a42390262a1f132c09f8da62c672" kind="function"><name>clbk_oracle_service</name></member>
     <member refid="namespaceoracle_1a5ac7249c0bad890a9f43d54c5b413399" kind="function"><name>main</name></member>
   </compound>
@@ -51,6 +55,10 @@
   </compound>
   <compound refid="conf_8py" kind="file"><name>conf.py</name>
   </compound>
+  <compound refid="index_8rst_8txt" kind="file"><name>index.rst.txt</name>
+    <member refid="index_8rst_8txt_1a5570bdfb8520faceba867c9a340ea74b" kind="variable"><name>file</name></member>
+    <member refid="index_8rst_8txt_1a14cf69efe36238ee632572538d8fd2f4" kind="variable"><name>Nov</name></member>
+  </compound>
   <compound refid="hint__generator_8py" kind="file"><name>hint_generator.py</name>
   </compound>
   <compound refid="motion__controller_8py" kind="file"><name>motion_controller.py</name>
@@ -58,6 +66,10 @@
   <compound refid="oracle_8py" kind="file"><name>oracle.py</name>
   </compound>
   <compound refid="user__interface_8py" kind="file"><name>user_interface.py</name>
+  </compound>
+  <compound refid="dir_585d6f41c8c6e69e0f84b478a34e55d0" kind="dir"><name>docs/_sources</name>
+  </compound>
+  <compound refid="dir_49e56c817e5e54854c35e136979f97ca" kind="dir"><name>docs</name>
   </compound>
   <compound refid="dir_53e6fa9553ac22a5646d2a2b2d7b97a1" kind="dir"><name>scripts</name>
   </compound>

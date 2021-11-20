@@ -21,6 +21,18 @@ int {\bfseries count\+\_\+} = 0
 \item 
 \mbox{\Hypertarget{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}\label{namespaceoracle_aa6b49d1aff1291557fe00d73caf4c83f}} 
 int {\bfseries prev\+\_\+comp\+\_\+hypo\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{namespaceoracle_a50b85f054233cd6491b418cd5b9acc25}\label{namespaceoracle_a50b85f054233cd6491b418cd5b9acc25}} 
+list {\bfseries correct\+\_\+hypotheses\+\_\+} = \mbox{[}\mbox{[}\textquotesingle{}Prof. Plum\textquotesingle{},\textquotesingle{}Revolver\textquotesingle{},\textquotesingle{}Ballroom\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Rev. Green\textquotesingle{},\textquotesingle{}Rope\textquotesingle{},\textquotesingle{}Hall\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Col. Mustard\textquotesingle{},\textquotesingle{}Dagger\textquotesingle{},\textquotesingle{}Lounge\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. White\textquotesingle{},\textquotesingle{}Spanner\textquotesingle{},\textquotesingle{}Library\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Mrs. Peacock\textquotesingle{},\textquotesingle{}Lead Pipe\textquotesingle{},\textquotesingle{}Study\textquotesingle{}\mbox{]},\mbox{[}\textquotesingle{}Miss. Scarlett\textquotesingle{},\textquotesingle{}Candlestick\textquotesingle{},\textquotesingle{}Kitchen\textquotesingle{}\mbox{]}\mbox{]}
+\item 
+\mbox{\Hypertarget{namespaceoracle_a9c2f5ca64c9598a13bf298352d3a2032}\label{namespaceoracle_a9c2f5ca64c9598a13bf298352d3a2032}} 
+string {\bfseries who\+\_\+} = \char`\"{}none\char`\"{}
+\item 
+\mbox{\Hypertarget{namespaceoracle_ac9b5178f5615fd9713ea2042b35b9541}\label{namespaceoracle_ac9b5178f5615fd9713ea2042b35b9541}} 
+string {\bfseries where\+\_\+} = \char`\"{}none\char`\"{}
+\item 
+\mbox{\Hypertarget{namespaceoracle_a849031e6980630408646af78a6ee5dc7}\label{namespaceoracle_a849031e6980630408646af78a6ee5dc7}} 
+string {\bfseries what\+\_\+} = \char`\"{}none\char`\"{}
 \end{DoxyCompactItemize}
 
 
@@ -31,7 +43,7 @@ int {\bfseries prev\+\_\+comp\+\_\+hypo\+\_\+} = 0
 
 .. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
 
-This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'.
+This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT' then the user request this node to check if the hypotheses is also 'CORRECT'. A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with 'True' otherewise 'False'
 
 Service:
 /armor_interface_srv
@@ -50,8 +62,12 @@ for '/oracle_service' service request from the 'motion_controller' node.
 Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
 start the reasoner to deduced a hypotheses based on previously loaded hints and 
 request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. 
-If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise
-it respond with 'False'. 
+If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' 
+otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT'
+then the user request this node to check if the hypotheses is also 'CORRECT'. 
+A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of 
+correct hypotheses in oracle node. If hypotheses is also correct then the node
+respond back with 'True' otherewise 'False'
 
 Args: 
     msg(Oracle): the input request message.
