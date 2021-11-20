@@ -72,13 +72,13 @@ The oracle node itself used the '/armor_interface_srv' sevice which is hosted by
 
 ## Project Simulation Demo:
 
-
-
 https://user-images.githubusercontent.com/61094879/142689717-7f9dfb4b-06da-45eb-93f6-3ed0d0d347f5.mp4
 
 ## Code Documentation:
 
-The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**.
+The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**. 
+
+Documentation link: https://shozababidi10.github.io/exporobotics_assignment1/
 
 ## Contant Info: 
 1. Author: Shozab Abidi
