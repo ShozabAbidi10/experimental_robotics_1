@@ -92,6 +92,18 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>count_</b> = 0</td></t
 <tr class="memitem:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memItemLeft" align="right" valign="top"><a id="aa6b49d1aff1291557fe00d73caf4c83f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>prev_comp_hypo_</b> = 0</td></tr>
 <tr class="separator:aa6b49d1aff1291557fe00d73caf4c83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b85f054233cd6491b418cd5b9acc25"><td class="memItemLeft" align="right" valign="top"><a id="a50b85f054233cd6491b418cd5b9acc25"></a>
+list&#160;</td><td class="memItemRight" valign="bottom"><b>correct_hypotheses_</b> = [['Prof. Plum','Revolver','Ballroom'],['Rev. Green','Rope','Hall'],['Col. Mustard','Dagger','Lounge'],['Mrs. White','Spanner','Library'],['Mrs. Peacock','Lead Pipe','Study'],['Miss. Scarlett','Candlestick','Kitchen']]</td></tr>
+<tr class="separator:a50b85f054233cd6491b418cd5b9acc25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memItemLeft" align="right" valign="top"><a id="a9c2f5ca64c9598a13bf298352d3a2032"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>who_</b> = &quot;none&quot;</td></tr>
+<tr class="separator:a9c2f5ca64c9598a13bf298352d3a2032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9b5178f5615fd9713ea2042b35b9541"><td class="memItemLeft" align="right" valign="top"><a id="ac9b5178f5615fd9713ea2042b35b9541"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>where_</b> = &quot;none&quot;</td></tr>
+<tr class="separator:ac9b5178f5615fd9713ea2042b35b9541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a849031e6980630408646af78a6ee5dc7"><td class="memItemLeft" align="right" valign="top"><a id="a849031e6980630408646af78a6ee5dc7"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>what_</b> = &quot;none&quot;</td></tr>
+<tr class="separator:a849031e6980630408646af78a6ee5dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">.. module:: oracle
@@ -100,7 +112,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>prev_comp_hypo_</b> = 
 
 .. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
 
-This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'.
+This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT' then the user request this node to check if the hypotheses is also 'CORRECT'. A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with 'True' otherewise 'False'
 
 Service:
 /armor_interface_srv
@@ -125,8 +137,12 @@ for '/oracle_service' service request from the 'motion_controller' node.
 Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
 start the reasoner to deduced a hypotheses based on previously loaded hints and 
 request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. 
-If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise
-it respond with 'False'. 
+If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' 
+otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT'
+then the user request this node to check if the hypotheses is also 'CORRECT'. 
+A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of 
+correct hypotheses in oracle node. If hypotheses is also correct then the node
+respond back with 'True' otherewise 'False'
 
 Args: 
     msg(Oracle): the input request message.
