@@ -70,9 +70,15 @@ After recieving the hint, the robot request the '/oracle_service' service which 
 
 The oracle node itself used the '/armor_interface_srv' sevice which is hosted by ARMOR package. When it recieve the request from motion_controller node then it forward this request to the following service making itself working as a bridge between motion_controller and ARMOR package. The idea of having the oracle node in the first place is debatable but in this project the decision for having this node was taken for the purpose of clarity in software design and for assigning dedicated task to each node. The archiecture agility allows it to scale modularly without effecting the overall system architecture. In this project we used a toy example of a point robot in 2D plane but it can easily upgrade to 3D mobile robot simulation in Gazebo with more realistic environment.
   
+## Project Simulation Demo:
+
+https://user-images.githubusercontent.com/61094879/142734090-305dbd75-fc06-49ff-b726-deb3692156a3.mp4
+
 ## Code Documentation:
 
-The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**.  
+The code documentation is done using tools Doxygen and Sphinx. In the **main** branch the doxygen documentation can be found and for sphinx there is second branch in this respository named **sphinx**. 
+
+Documentation link: https://shozababidi10.github.io/exporobotics_assignment1/
   
 ## Contant Info: 
 1. Author: Shozab Abidi
