@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.motion_controller &mdash; exporobot_assignment1 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> exporobot_assignment1
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">exporobot_assignment1</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>scripts.motion_controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.motion_controller</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: motion_controller</span>
+<span class="sd">	:platform: Unix</span>
+<span class="sd">	:synopsis: Python module for the robot&#39;s motion controller</span>
+
+<span class="sd">.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com</span>
+
+<span class="sd">This node controls the robot motion in the simulation. It waits for the user_interface node&#39;s request to start the simulation. When the request is recieved, it start the robot&#39;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &#39;hint_generator&#39; node to provide the hint. Once hint is recieved, it request the &#39;oracle&#39; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. </span>
+<span class="sd">  </span>
+<span class="sd">  </span>
+<span class="sd">Service:</span>
+<span class="sd">	/request_hint</span>
+<span class="sd">	/oracle_service</span>
+<span class="sd">	/user_interface</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">CommandResponse</span>
+<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Hint</span><span class="p">,</span> <span class="n">HintResponse</span> 
+<span class="kn">from</span> <span class="nn">exporobot_assignment1.srv</span> <span class="kn">import</span> <span class="n">Oracle</span>
+<span class="kn">from</span> <span class="nn">std_msgs.msg</span> <span class="kn">import</span> <span class="n">String</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Point</span>
+
+<span class="n">req_hint_client_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">&quot;&quot;&quot;rospy.ServiceProxy(): Initializing global variable with &#39;None&#39; for initializing &#39;/request_hint&#39; service client.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">req_oracle_client_</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">&quot;&quot;&quot;rospy.ServiceProxy(): Initializing global variable with &#39;None&#39; for initializing &#39;/oracle_service&#39; service client.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">hypo_</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="sd">&quot;&quot;&quot;Int: Initializing global variable with &#39;0&#39; for tracking the number of hypotheses.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>  
+
+  
+<div class="viewcode-block" id="clbk_user_interface"><a class="viewcode-back" href="../../index.html#scripts.motion_controller.clbk_user_interface">[docs]</a><span class="k">def</span> <span class="nf">clbk_user_interface</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+	
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	</span>
+<span class="sd">	This function waits for the &#39;user_interface&#39; node&#39;s request to start </span>
+<span class="sd">	the simulation. When the request with correct msg structure is recieved,</span>
+<span class="sd">	it start the robot&#39;s exploration by calling the &#39;exploration()&#39; function. </span>
+<span class="sd">	</span>
+<span class="sd">	Args: </span>
+<span class="sd">		msg(Command): the input request message.</span>
+<span class="sd">		</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		String </span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">req</span> <span class="o">==</span> <span class="s2">&quot;start&quot;</span><span class="p">):</span>
+		 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
+		 <span class="k">return</span> <span class="n">exploration</span><span class="p">()</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;req msg is not right.&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">req</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">CommandResponse</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span></div>
+
+		
+<div class="viewcode-block" id="exploration"><a class="viewcode-back" href="../../index.html#scripts.motion_controller.exploration">[docs]</a><span class="k">def</span> <span class="nf">exploration</span><span class="p">():</span>
+
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	</span>
+<span class="sd">	This function starts the robot&#39;s exploration in which robot visits all the</span>
+<span class="sd">	three rooms in the environment. It initializes all the rooms, origin and </span>
+<span class="sd">	robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and</span>
+<span class="sd">	P (1,1). After reaching in every room,  it request the &#39;hint_generator&#39; node</span>
+<span class="sd">	to provide the hint. Once hint is recieved, it request the &#39;oracle&#39; node to </span>
+<span class="sd">	load the that hint in the ARMOR reasoner and then move to visit next room. </span>
+<span class="sd">	After visiting and reciving all the hints it start the reasoner to deduced </span>
+<span class="sd">	the hypotheses and to check if the hypotheses based on previous loaded hints is</span>
+<span class="sd">	consistent or not. If the hints are consistent then the robotgo to the origin</span>
+<span class="sd">	position O(0,0) and print the hypotheses statement. Incase if the hypothesis is</span>
+<span class="sd">	not consistent then the node will repeat the exploration.</span>
+
+<span class="sd">	Args: </span>
+<span class="sd">		none</span>
+<span class="sd">		</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		String </span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">global</span> <span class="n">hypo_</span>
+	<span class="n">who</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+	<span class="n">what</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+	<span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+	
+	<span class="n">hypo_</span> <span class="o">+=</span> <span class="mi">1</span>
+	
+	<span class="n">robot_curr_pos</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">1</span>
+	
+	<span class="n">room1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">room1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">2</span>
+	<span class="n">room1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="n">room2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">room2</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">room2</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">2</span>
+
+	<span class="n">room3</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">room3</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+	<span class="n">room3</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+	
+	<span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">origin</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">origin</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>	
+	
+	<span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="n">visit</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="p">,</span> <span class="n">room1</span><span class="p">)):</span>
+			<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">room1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room1</span><span class="o">.</span><span class="n">y</span>
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot is in Room1 (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">). Now collecting hint.&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+			
+			<span class="c1"># Now call hint service</span>
+			<span class="n">hint1</span> <span class="o">=</span> <span class="n">req_hint_client_</span><span class="p">(</span><span class="s2">&quot;need_hint&quot;</span><span class="p">,(</span><span class="s2">&quot;HP&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">hypo_</span><span class="p">)))</span>
+			
+			<span class="k">if</span><span class="p">(</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span><span class="p">):</span>
+				<span class="n">who</span> <span class="o">=</span> <span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+			<span class="k">elif</span><span class="p">(</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;what&quot;</span><span class="p">):</span>
+				<span class="n">what</span> <span class="o">=</span> <span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+			<span class="k">elif</span><span class="p">(</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;where&quot;</span><span class="p">):</span>
+				<span class="n">where</span> <span class="o">=</span> <span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+			
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Collected hint from room1 [&quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;]&#39;</span><span class="p">,</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+			
+			<span class="c1"># Now call hint load service</span>
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Loading the hint in reasoner.&#39;</span><span class="p">)</span>
+			<span class="n">oracle_load_hint1</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hint1</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>		
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot was not able to reach room1.&#39;</span><span class="p">)</span>
+			<span class="k">return</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span>
+			<span class="k">break</span>
+	
+		<span class="k">if</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">room1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room1</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">oracle_load_hint1</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hint successfully loaded in the reasoner.&#39;</span><span class="p">)</span>
+			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>		
+			<span class="k">if</span><span class="p">(</span><span class="n">visit</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="p">,</span> <span class="n">room2</span><span class="p">)):</span>
+				<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">room2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room2</span><span class="o">.</span><span class="n">y</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot is in Room2 (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">). Now collecting hint.&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+				<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+		
+				<span class="c1"># Now call hint service</span>
+				<span class="n">hint2</span> <span class="o">=</span> <span class="n">req_hint_client_</span><span class="p">(</span><span class="s2">&quot;need_hint&quot;</span><span class="p">,(</span><span class="s2">&quot;HP&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">hypo_</span><span class="p">)))</span>
+		
+				<span class="k">if</span><span class="p">(</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span><span class="p">):</span>
+					<span class="n">who</span> <span class="o">=</span> <span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+				<span class="k">elif</span><span class="p">(</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;what&quot;</span><span class="p">):</span>
+					<span class="n">what</span> <span class="o">=</span> <span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+				<span class="k">elif</span><span class="p">(</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;where&quot;</span><span class="p">):</span>
+					<span class="n">where</span> <span class="o">=</span> <span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>	
+			
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Collected hint from room2  [&quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;]&#39;</span><span class="p">,</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+		
+				<span class="c1"># Now call hint load service</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Loading the hint in reasoner.&#39;</span><span class="p">)</span>
+				<span class="n">oracle_load_hint2</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hint2</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot was not able to reach room2.&#39;</span><span class="p">)</span>
+				<span class="k">return</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span>
+				<span class="k">break</span>
+
+		<span class="k">if</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">room2</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room2</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">oracle_load_hint2</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hint successfully loaded in the reasoner.&#39;</span><span class="p">)</span>
+			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">visit</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="p">,</span> <span class="n">room3</span><span class="p">)):</span>
+				<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">room3</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room3</span><span class="o">.</span><span class="n">y</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot is in Room3 (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">). Now collecting hint.&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+				<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+				
+				<span class="c1"># Now call hint service</span>
+				<span class="n">hint3</span> <span class="o">=</span> <span class="n">req_hint_client_</span><span class="p">(</span><span class="s2">&quot;need_hint&quot;</span><span class="p">,(</span><span class="s2">&quot;HP&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">hypo_</span><span class="p">)))</span>
+				
+				<span class="k">if</span><span class="p">(</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span><span class="p">):</span>
+					<span class="n">who</span> <span class="o">=</span> <span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+				<span class="k">elif</span><span class="p">(</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;what&quot;</span><span class="p">):</span>
+					<span class="n">what</span> <span class="o">=</span> <span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+				<span class="k">elif</span><span class="p">(</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;where&quot;</span><span class="p">):</span>
+					<span class="n">where</span> <span class="o">=</span> <span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+		
+		
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Collected hint from room3  [&quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;, &quot;</span><span class="si">%s</span><span class="s1">&quot;]&#39;</span><span class="p">,</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+				
+				<span class="c1"># Now call hint load service</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Loading the hint in reasoner.&#39;</span><span class="p">)</span>
+				<span class="n">oracle_load_hint3</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hint3</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+			
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot was not able to reach room3.&#39;</span><span class="p">)</span>
+				<span class="k">return</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span>
+				<span class="k">break</span>			
+
+		<span class="k">if</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">room3</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">room3</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">oracle_load_hint3</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+			
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hint successfully loaded in the reasoner.&#39;</span><span class="p">)</span>
+			
+			<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+				
+			<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Collected hints from all three rooms. Now starting the reasoner.&#39;</span><span class="p">)</span>
+			
+			<span class="c1"># Starting reasoner</span>
+			<span class="n">oracle_start_reason</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;REASON&#39;</span><span class="p">,</span> <span class="p">[])</span> 
+			
+			<span class="c1"># Checking if inconsistency &gt; prev_inconsistency:</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">oracle_start_reason</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+				
+				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Reasoner started successfully. Now, checking the consistency of the hypothesis..&#39;</span><span class="p">)</span>
+				
+				<span class="n">oracle_check_consis</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;CONSISTENT&#39;</span><span class="p">,</span> <span class="p">[])</span> 
+				
+				<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			
+				<span class="k">if</span> <span class="p">(</span><span class="n">oracle_check_consis</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+					
+					<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hypothesis found conistence. Now going to origin.&#39;</span><span class="p">)</span>
+					
+					<span class="k">if</span><span class="p">(</span><span class="n">visit</span><span class="p">(</span><span class="n">robot_curr_pos</span><span class="p">,</span> <span class="n">origin</span><span class="p">)):</span>
+					
+						<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span>
+					
+						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot reached origin (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">).&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+						
+						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS STATEMENT: </span><span class="si">%s</span><span class="s1"> with the </span><span class="si">%s</span><span class="s1"> in the </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">who</span><span class="p">,</span><span class="n">what</span><span class="p">,</span><span class="n">where</span><span class="p">)</span>
+					
+						<span class="k">return</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+					
+					<span class="k">else</span><span class="p">:</span>
+						
+						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot was not able to reach origin.&#39;</span><span class="p">)</span>
+						
+						<span class="k">return</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span>
+						
+						<span class="k">break</span>
+				<span class="k">else</span><span class="p">:</span>
+					
+					<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hypothesis found inconistence. Repeating the exploration.&#39;</span><span class="p">)</span>
+		
+		<span class="n">hypo_</span> <span class="o">+=</span> <span class="mi">1</span></div>
+		
+		
+<div class="viewcode-block" id="visit"><a class="viewcode-back" href="../../index.html#scripts.motion_controller.visit">[docs]</a><span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">goal</span><span class="p">):</span>
+
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	</span>
+<span class="sd">	This function controls the robot&#39;s movement during the simulation, making</span>
+<span class="sd">	it move from one point to another in the environemnt. It takes to arguement</span>
+<span class="sd">	current position of the robot and goal position of the robot. It calculate </span>
+<span class="sd">	the distance between to points and move robot in a way to reduce this distance. </span>
+<span class="sd">	</span>
+<span class="sd">	Args: </span>
+<span class="sd">		current(Point()): Current position of the robot. </span>
+<span class="sd">		goal(Point()): Target position of the robot. 		</span>
+<span class="sd">		</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		Bool </span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">curr_pos</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+	<span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span>  <span class="n">current</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">current</span><span class="o">.</span><span class="n">y</span>
+	<span class="n">dist</span> <span class="o">=</span> <span class="p">((((</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">((</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+	<span class="n">dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+	<span class="n">vel_factor</span> <span class="o">=</span> <span class="mf">0.1</span>
+	<span class="k">while</span> <span class="ow">not</span> <span class="n">dist</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">:</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>	<span class="n">vel_x</span> <span class="o">=</span> <span class="n">vel_factor</span><span class="o">*</span><span class="mi">1</span> 
+		<span class="k">else</span><span class="p">:</span>  <span class="n">vel_x</span> <span class="o">=</span> <span class="n">vel_factor</span><span class="o">*-</span><span class="mi">1</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span><span class="o">-</span><span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>	<span class="n">vel_y</span> <span class="o">=</span> <span class="n">vel_factor</span><span class="o">*</span><span class="mi">1</span> 
+		<span class="k">else</span><span class="p">:</span>  <span class="n">vel_y</span> <span class="o">=</span> <span class="n">vel_factor</span><span class="o">*-</span><span class="mi">1</span>
+		
+		<span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span> <span class="o">+=</span> <span class="nb">round</span><span class="p">(</span><span class="n">vel_x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+		<span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">+=</span> <span class="nb">round</span><span class="p">(</span><span class="n">vel_y</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+		<span class="n">dist</span> <span class="o">=</span> <span class="p">((((</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">((</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
+		<span class="n">dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>	
+		<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot moving (</span><span class="si">%f</span><span class="s1">,</span><span class="si">%f</span><span class="s1">), dist(</span><span class="si">%f</span><span class="s1">)&#39;</span><span class="p">,</span><span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">dist</span><span class="p">)</span>	
+		<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+		
+	<span class="k">if</span><span class="p">(</span><span class="n">dist</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">):</span>
+		<span class="k">return</span> <span class="kc">True</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">False</span></div>
+
+	
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../index.html#scripts.motion_controller.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	</span>
+<span class="sd">	This is a &#39;main&#39; function of  &#39;motion_controller&#39; node. It initializes</span>
+<span class="sd">	clients for &#39;/request_hint&#39; service hosted by &#39;hint_generator&#39; node, and</span>
+<span class="sd">	&#39;/oracle_service&#39; service which is hosted by &#39;oracle&#39; node and lastly a </span>
+<span class="sd">	server for &#39;/user_interface&#39; service. Upon recieving request for </span>
+<span class="sd">	&#39;/user_interface&#39; service it calls the &#39;/clbk_user_interface&#39; function.  </span>
+<span class="sd">	</span>
+<span class="sd">	Args: </span>
+<span class="sd">		none		</span>
+<span class="sd">		</span>
+<span class="sd">	Returns: </span>
+<span class="sd">		none</span>
+<span class="sd">	</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">global</span> <span class="n">req_hint_client_</span>
+	<span class="k">global</span> <span class="n">req_oracle_client_</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;motion_controller&#39;</span><span class="p">)</span>
+	<span class="n">req_hint_client_</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;/request_hint&#39;</span><span class="p">,</span> <span class="n">Hint</span><span class="p">)</span>
+	<span class="n">req_oracle_client_</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;/oracle_service&#39;</span><span class="p">,</span> <span class="n">Oracle</span><span class="p">)</span>
+	<span class="n">user_server</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Service</span><span class="p">(</span><span class="s1">&#39;/user_interface&#39;</span><span class="p">,</span> <span class="n">Command</span><span class="p">,</span> <span class="n">clbk_user_interface</span><span class="p">)</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Shozab Abidi.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
