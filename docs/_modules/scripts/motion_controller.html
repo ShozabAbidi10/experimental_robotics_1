@@ -72,8 +72,7 @@
 
 <span class="sd">.. moduleauthor:: Shozab Abid hasanshozab10@gmail.com</span>
 
-<span class="sd">This node controls the robot motion in the simulation. It waits for the user_interface node&#39;s request to start the simulation. When the request is recieved, it start the robot&#39;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &#39;hint_generator&#39; node to provide the hint. Once hint is recieved, it request the &#39;oracle&#39; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robotgo to the origin position O(0,0) and print the hypotheses statement. Incase if the hypothesis is not consistent then the node will repeat the exploration. </span>
-<span class="sd">  </span>
+<span class="sd">This node controls the robot motion in the simulation. It waits for the user_interface node&#39;s request to start the simulation. When the request is recieved, it start the robot&#39;s exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the &#39;hint_generator&#39; node to provide the hint. Once hint is recieved, it request the &#39;oracle&#39; node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robot go to the origin position O(0,0) and check hypotheses correctness. Hypotheses is correct if it is consistence and belong to a predefined list of hypotheses in oracle node. If hypotheses is also correct then print the hypotheses statement. Incase if the hypothesis is inconsistent or incorrect then the robot will repeat the exploration.   </span>
 <span class="sd">  </span>
 <span class="sd">Service:</span>
 <span class="sd">	/request_hint</span>
@@ -141,11 +140,14 @@
 <span class="sd">	to provide the hint. Once hint is recieved, it request the &#39;oracle&#39; node to </span>
 <span class="sd">	load the that hint in the ARMOR reasoner and then move to visit next room. </span>
 <span class="sd">	After visiting and reciving all the hints it start the reasoner to deduced </span>
-<span class="sd">	the hypotheses and to check if the hypotheses based on previous loaded hints is</span>
-<span class="sd">	consistent or not. If the hints are consistent then the robotgo to the origin</span>
-<span class="sd">	position O(0,0) and print the hypotheses statement. Incase if the hypothesis is</span>
-<span class="sd">	not consistent then the node will repeat the exploration.</span>
-
+<span class="sd">	the hypotheses and to check if the hypotheses based on previous loaded hints</span>
+<span class="sd">	is consistent or not. If the hints are consistent then the robot go to the </span>
+<span class="sd">	origin position O(0,0) and check hypotheses correctness. Hypotheses is correct</span>
+<span class="sd">	if it is consistence and belong to a predefined list of hypotheses in oracle </span>
+<span class="sd">	node. If hypotheses is also correct then print the hypotheses statement. Incase</span>
+<span class="sd">	if the hypothesis is inconsistent or incorrect then the robot will repeat the </span>
+<span class="sd">	exploration. </span>
+<span class="sd">	</span>
 <span class="sd">	Args: </span>
 <span class="sd">		none</span>
 <span class="sd">		</span>
@@ -277,12 +279,12 @@
 			<span class="c1"># Starting reasoner</span>
 			<span class="n">oracle_start_reason</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;REASON&#39;</span><span class="p">,</span> <span class="p">[])</span> 
 			
-			<span class="c1"># Checking if inconsistency &gt; prev_inconsistency:</span>
+			<span class="c1"># Checking if consistent hypotheses list &gt; prev consistent hypotheses list:</span>
 			<span class="k">if</span><span class="p">(</span><span class="n">oracle_start_reason</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
 				
 				<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Reasoner started successfully. Now, checking the consistency of the hypothesis..&#39;</span><span class="p">)</span>
 				
-				<span class="n">oracle_check_consis</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;CONSISTENT&#39;</span><span class="p">,</span> <span class="p">[])</span> 
+				<span class="n">oracle_check_consis</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;COMPLETED&#39;</span><span class="p">,</span> <span class="p">[])</span> 
 				
 				<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 			
@@ -294,26 +296,34 @@
 					
 						<span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">origin</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">origin</span><span class="o">.</span><span class="n">y</span>
 					
-						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot reached origin (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">).&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot reached origin (</span><span class="si">%i</span><span class="s1">,</span><span class="si">%i</span><span class="s1">) now checking hypothesis correctness.&#39;</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">robot_curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 						
-						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS STATEMENT: </span><span class="si">%s</span><span class="s1"> with the </span><span class="si">%s</span><span class="s1"> in the </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">who</span><span class="p">,</span><span class="n">what</span><span class="p">,</span><span class="n">where</span><span class="p">)</span>
-					
-						<span class="k">return</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
-					
+						<span class="n">oracle_check_corr</span> <span class="o">=</span> <span class="n">req_oracle_client_</span><span class="p">(</span><span class="s1">&#39;CORRECTNESS&#39;</span><span class="p">,</span> <span class="p">[])</span>
+						
+						<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+						
+						<span class="k">if</span><span class="p">(</span><span class="n">oracle_check_corr</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="kc">True</span><span class="p">):</span>
+							
+							<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS FOUND CORRECT....&#39;</span><span class="p">)</span>
+							
+							<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS STATEMENT: </span><span class="si">%s</span><span class="s1"> with the </span><span class="si">%s</span><span class="s1"> in the </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">who</span><span class="p">,</span><span class="n">what</span><span class="p">,</span><span class="n">where</span><span class="p">)</span>
+							
+							<span class="k">return</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+						
+						<span class="k">else</span><span class="p">:</span>
+							<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS FOUND INCORRECT...Repeating the exploration&#39;</span><span class="p">)</span>
+							
 					<span class="k">else</span><span class="p">:</span>
 						
 						<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Robot was not able to reach origin.&#39;</span><span class="p">)</span>
-						
-						<span class="k">return</span><span class="p">(</span><span class="s2">&quot;not done&quot;</span><span class="p">)</span>
-						
-						<span class="k">break</span>
+					
 				<span class="k">else</span><span class="p">:</span>
 					
-					<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;Hypothesis found inconistence. Repeating the exploration.&#39;</span><span class="p">)</span>
+					<span class="n">rospy</span><span class="o">.</span><span class="n">loginfo</span><span class="p">(</span><span class="s1">&#39;HYPOTHESIS FOUND INCONSISTENCE. Repeating the exploration.&#39;</span><span class="p">)</span>
 		
 		<span class="n">hypo_</span> <span class="o">+=</span> <span class="mi">1</span></div>
 		
-		
+				
 <div class="viewcode-block" id="visit"><a class="viewcode-back" href="../../index.html#scripts.motion_controller.visit">[docs]</a><span class="k">def</span> <span class="nf">visit</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="n">goal</span><span class="p">):</span>
 
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -336,7 +346,7 @@
 	<span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span>  <span class="n">current</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">current</span><span class="o">.</span><span class="n">y</span>
 	<span class="n">dist</span> <span class="o">=</span> <span class="p">((((</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">((</span><span class="n">goal</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">curr_pos</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span>
 	<span class="n">dist</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-	<span class="n">vel_factor</span> <span class="o">=</span> <span class="mf">0.1</span>
+	<span class="n">vel_factor</span> <span class="o">=</span> <span class="mf">0.2</span>
 	<span class="k">while</span> <span class="ow">not</span> <span class="n">dist</span> <span class="o">&lt;=</span> <span class="mf">0.05</span><span class="p">:</span>
 		
 		<span class="k">if</span> <span class="p">(</span><span class="n">goal</span><span class="o">.</span><span class="n">x</span><span class="o">-</span><span class="n">curr_pos</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>	<span class="n">vel_x</span> <span class="o">=</span> <span class="n">vel_factor</span><span class="o">*</span><span class="mi">1</span> 

@@ -103,11 +103,10 @@
 		<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
 			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exploration started!&quot;</span><span class="p">)</span>
 			<span class="n">uc_response_</span> <span class="o">=</span> <span class="n">user_client</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>		
-		<span class="k">if</span><span class="p">(</span><span class="n">uc_response_</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="s2">&quot;done&quot;</span><span class="p">):</span>
-			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exploration Completed!&quot;</span><span class="p">)</span>
-			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Want to the start exploration again? Press 1 &quot;</span><span class="p">)</span>
-			<span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Press 1 to start the robot &quot;</span><span class="p">))</span></div>
-
+						
+			<span class="k">if</span><span class="p">(</span><span class="n">uc_response_</span><span class="o">.</span><span class="n">res</span> <span class="o">==</span> <span class="s2">&quot;done&quot;</span><span class="p">):</span>
+				<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exploration Completed!&quot;</span><span class="p">)</span>
+				<span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Want to the start exploration again? Press 1 &quot;</span><span class="p">))</span></div>
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 	<span class="n">main</span><span class="p">()</span>
 </pre></div>
