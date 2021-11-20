@@ -39,10 +39,9 @@ def main():
 		if (x == 1):
 			print("Exploration started!")
 			uc_response_ = user_client("start")		
-		if(uc_response_.res == "done"):
-			print("Exploration Completed!")
-			print("Want to the start exploration again? Press 1 ")
-			x = int(input("\nPress 1 to start the robot "))
-
+						
+			if(uc_response_.res == "done"):
+				print("Exploration Completed!")
+				x = int(input("\nWant to the start exploration again? Press 1 "))
 if __name__ == '__main__':
 	main()

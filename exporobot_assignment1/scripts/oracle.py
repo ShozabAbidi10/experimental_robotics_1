@@ -7,7 +7,7 @@
 
 .. moduleauthor:: Shozab Abid hasanshozab10@gmail.com
 
-This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'.
+This node waits for '/oracle_service' service request from the 'motion_controller' node. Based on the type of recieved request it loads the hint in the ARMOR reasonser, start the reasoner to deduced a hypotheses based on previously loaded hints and request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT' then the user request this node to check if the hypotheses is also 'CORRECT'. A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of correct hypotheses in oracle node. If hypotheses is also correct then the node respond back with 'True' otherewise 'False'
 
 Service:
 	/armor_interface_srv
@@ -15,11 +15,10 @@ Service:
 	
 """
 
-
 import rospy
 import time
-from exporobot_assignment1.srv import Oracle,OracleResponse
-from armor_msgs.srv import ArmorDirective,ArmorDirectiveRequest
+from exporobot_assignment1.srv import Oracle, OracleResponse
+from armor_msgs.srv import ArmorDirective, ArmorDirectiveRequest
 
 
 armor_client_ = None
@@ -42,6 +41,17 @@ prev_comp_hypo_ = 0
 
 """
 
+correct_hypotheses_ = [['Prof. Plum','Revolver','Ballroom'],['Rev. Green','Rope','Hall'],['Col. Mustard','Dagger','Lounge'],['Mrs. White','Spanner','Library'],['Mrs. Peacock','Lead Pipe','Study'],['Miss. Scarlett','Candlestick','Kitchen']]
+"""string[]: Initializing correct hypotheses array. It will be use for checking the correctness of deduced hypotheses.
+
+"""
+
+who_ = "none"
+where_ = "none"
+what_ = "none"
+
+
+
 def clbk_oracle_service(msg):
 	
 	"""
@@ -51,8 +61,12 @@ def clbk_oracle_service(msg):
 	Based on the type of recieved request, it loads the hint in the ARMOR reasonser,
 	start the reasoner to deduced a hypotheses based on previously loaded hints and 
 	request ARMOR reasoner for the list of 'INCONSISTENT' and 'COMPLETE' hypotheses. 
-	If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' otherwise
-	it respond with 'False'. 
+	If the recently deduced hypotheses is 'CONSISTENT' it respond with 'True' 
+	otherwise it respond with 'False'. Similarly if the hypotheses is 'CONSISTENT'
+	then the user request this node to check if the hypotheses is also 'CORRECT'. 
+	A hypotheses correct if it is 'CONSISTENT' and belong to a predefined list of 
+	correct hypotheses in oracle node. If hypotheses is also correct then the node
+ 	respond back with 'True' otherewise 'False'
 	
 	Args: 
 		msg(Oracle): the input request message.
@@ -66,6 +80,9 @@ def clbk_oracle_service(msg):
 	global armor_req_
 	global armor_res_
 	global prev_comp_hypo_
+	global who_ 
+	global where_
+	global what_ 
 	
 	if(count_ == 0):
 		count_ += 1	
@@ -83,6 +100,8 @@ def clbk_oracle_service(msg):
 		
 	if(msg.command == "who" and armor_res_.armor_response.success == True):
 		
+		
+		who_ = msg.args[2]
 		# loading the hint in the reasoner.
 		print("msg.command :", msg.command)
 		##print("msg.command :", msg.args)
@@ -114,6 +133,7 @@ def clbk_oracle_service(msg):
 		
 	elif(msg.command == "what" and armor_res_.armor_response.success == True):
 		
+		what_ = msg.args[2]
 		# loading the hint in the reasoner.
 		print("msg.command :", msg.command)
 		
@@ -146,6 +166,7 @@ def clbk_oracle_service(msg):
 		
 		# loading the hint in the reasoner.
 		print("msg.command :", msg.command)
+		where_ = msg.args[2]
 		
 		armor_req_.armor_request.client_name = 'tutorial'
 		armor_req_.armor_request.reference_name = 'ontoTest'
@@ -189,8 +210,7 @@ def clbk_oracle_service(msg):
 		
 		if(armor_res_.armor_response.success == True):
 			return OracleResponse(True)
-		
-	elif(msg.command == "CONSISTENT" and armor_res_.armor_response.success == True):
+	elif(msg.command == "COMPLETED" and armor_res_.armor_response.success == True):
 		
 		# Starting the reasoner
 		print("msg.command :", msg.command)
@@ -213,11 +233,20 @@ def clbk_oracle_service(msg):
 			print("PREVIOUS COMPLETE HYPOTHESIS :", prev_comp_hypo_)
 			
 			if(new_comp_hypo > prev_comp_hypo_):
-				prev_comp_hypo_ = 	new_comp_hypo		
+				prev_comp_hypo_ = new_comp_hypo		
 				return OracleResponse(True)
 			else:
-				return OracleResponse(False)
-	
+				return OracleResponse(False)	
+				
+	elif(msg.command == "CORRECTNESS" and armor_res_.armor_response.success == True):	
+		
+		print("msg.command :", msg.command)
+		t = 0
+		for i in range(len(correct_hypotheses_)):
+			if(who_ == correct_hypotheses_[i][0] and what_ == correct_hypotheses_[i][1] and where_ == correct_hypotheses_[i][2]):
+				return OracleResponse(True)
+
+		return OracleResponse(False)
 
 def main():
 	
