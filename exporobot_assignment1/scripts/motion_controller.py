@@ -5,7 +5,7 @@
 # \brief This file contains code for controlling motion of the robot.
 # \author Shozab Abidi
 # \version 1.0
-# \date 13/11/2021
+# \date 15/11/2021
 #
 # \details
 #
@@ -14,16 +14,7 @@
 # ° /oracle_service
 # ° /user_interface
 #
-# This node control the robot motion. 
-# 1. This node wait for the user_interface node to request to start the exploration. 
-# 2. When the request is recieved, it start the while loop in which it make robot to visit all the three rooms. 
-# 3. All the three rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1)
-# 4. After reaching every room coordinates, it request the oracle node to give the hint. 
-# 5. After visiting and reciving all the hints it start the reasoner. 
-# 6. Then it check if the hypothesis based on previous loaded hints is consistent or not. 
-# 7. If the hints are consistent then it go to the origin position O(0,0) and print the statement. 
-# 8. Ask the user_interface node to ask user to again do the exploration. 
-# 9. If the hypothesis is not consistent then it will continue the exploration again. 
+# This node controls the robot motion in the simulation. It waits for the user_interface node's request to start the simulation. When the request is recieved, it start the robot's exploration in which robot  visits all the three rooms in the environment. All rooms coordinates are predefined: R1(2,0) R2(0,2) R3(-2,0). Robot start the exploration from initial position P(1,1). After reaching in every room,  it request the 'hint_generator' node to provide the hint. Once hint is recieved, it request the 'oracle' node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robot go to the origin position O(0,0) and check hypotheses correctness. Hypotheses is correct if it is consistence and belong to a predefined list of hypotheses in oracle node. If hypotheses is also correct then print the hypotheses statement. Incase if the hypothesis is inconsistent or incorrect then the robot will repeat the exploration. 
   
   
 import rospy
@@ -31,23 +22,42 @@ import time
 from exporobot_assignment1.srv import Command, CommandResponse
 from exporobot_assignment1.srv import Hint, HintResponse 
 from exporobot_assignment1.srv import Oracle
-
 from std_msgs.msg import String
 from geometry_msgs.msg import Point
 
+##  Initializing global variable 'req_hint_client_' with 'None' for '/request_hint' client.
 req_hint_client_ = None
+##  Initializing global variable 'req_oracle_client_' with 'None' for '/oracle_service' client.
 req_oracle_client_ = None
+##  Initializing global variable 'hypo_' with '0' for tracking the number of hypotheses.
 hypo_ = 0
+  
+##
+# \brief This is a callback function for '\user_interface' service. 
+# 
+# \return String
+#
+# This function waits for the 'user_interface' node's request to start the simulation. When the request with correct msg structure is recieved, it start the robot's exploration by calling the 'exploration()' function. 
+#
   
 def clbk_user_interface(msg):
 	
 	if (msg.req == "start"):
-		 time.sleep(5)
-		 
+		 time.sleep(5) 
 		 return exploration()
 	else:
 		print("req msg is not right.", msg.req)
 		return CommandResponse("not done")
+	
+	
+##
+# \brief This is a 'exploration' function of motion_controller node. 
+# 
+# \return String.
+#
+# This function starts the robot's exploration in which robot visits all the three rooms in the environment. It initializes all the rooms, origin and robot starting position coordinates as R1(2,0) R2(0,2) R3(-2,0), O (0,0) and P (1,1). After reaching in every room,  it request the 'hint_generator' node to provide the hint. Once hint is recieved, it request the 'oracle' node to load the that hint in the ARMOR reasoner and then move to visit next room. After visiting and reciving all the hints it start the reasoner to deduced the hypotheses and to check if the hypotheses based on previous loaded hints is consistent or not. If the hints are consistent then the robot go to the origin position O(0,0) and check hypotheses correctness. Hypotheses is correct if it is consistence and belong to a predefined list of hypotheses in oracle node. If hypotheses is also correct then print the hypotheses statement. Incase if the hypothesis is inconsistent or incorrect then the robot will repeat the exploration.
+# 
+#
 		
 def exploration():
 	global hypo_
@@ -173,12 +183,12 @@ def exploration():
 			# Starting reasoner
 			oracle_start_reason = req_oracle_client_('REASON', []) 
 			
-			# Checking if inconsistency > prev_inconsistency:
+			# Checking if consistent hypotheses list > prev consistent hypotheses list:
 			if(oracle_start_reason.res == True):
 				
 				rospy.loginfo('Reasoner started successfully. Now, checking the consistency of the hypothesis..')
 				
-				oracle_check_consis = req_oracle_client_('CONSISTENT', []) 
+				oracle_check_consis = req_oracle_client_('COMPLETED', []) 
 				
 				time.sleep(1)
 			
@@ -190,24 +200,40 @@ def exploration():
 					
 						robot_curr_pos.x,robot_curr_pos.y = origin.x, origin.y
 					
-						rospy.loginfo('Robot reached origin (%i,%i).',robot_curr_pos.x,robot_curr_pos.y)
+						rospy.loginfo('Robot reached origin (%i,%i) now checking hypothesis correctness.',robot_curr_pos.x,robot_curr_pos.y)
 						
-						rospy.loginfo('HYPOTHESIS STATEMENT: %s with the %s in the %s',who,what,where)
-					
-						return("done")
-					
+						oracle_check_corr = req_oracle_client_('CORRECTNESS', [])
+						
+						time.sleep(1)
+						
+						if(oracle_check_corr.res == True):
+							
+							rospy.loginfo('HYPOTHESIS FOUND CORRECT....')
+							
+							rospy.loginfo('HYPOTHESIS STATEMENT: %s with the %s in the %s',who,what,where)
+							
+							return("done")
+						
+						else:
+							rospy.loginfo('HYPOTHESIS FOUND INCORRECT...Repeating the exploration')
+							
 					else:
 						
 						rospy.loginfo('Robot was not able to reach origin.')
-						
-						return("not done")
-						
-						break
+					
 				else:
 					
-					rospy.loginfo('Hypothesis found inconistence. Repeating the exploration.')
+					rospy.loginfo('HYPOTHESIS FOUND INCONSISTENCE. Repeating the exploration.')
 		
 		hypo_ += 1
+		
+		
+##
+# \brief This is a 'visit' function of motion_controller node. 
+# 
+# \return Bool.
+#
+# This function controls the robot's movement during the simulation, making it move from one point to another in the environemnt. It takes to arguement current position of the robot and goal position of the robot. It calculate the distance between to points and move robot in a way to reduce this distance.	
 	
 def visit(current,goal):
 
@@ -215,7 +241,7 @@ def visit(current,goal):
 	curr_pos.x, curr_pos.y =  current.x,current.y
 	dist = ((((goal.x - curr_pos.x)**2)+((goal.y - curr_pos.y)**2))**0.5)
 	dist = round(dist,2)
-	vel_factor = 0.1
+	vel_factor = 0.2
 	while not dist <= 0.05:
 		
 		if (goal.x-curr_pos.x)>0:	vel_x = vel_factor*1 
@@ -236,6 +262,12 @@ def visit(current,goal):
 	else:
 		return False
 	
+##
+# \brief This is a 'main' function of motion_controller node. 
+# 
+# \return [none].
+#
+# This is a 'main' function of  'motion_controller' node. It initializes clients for '/request_hint' service hosted by 'hint_generator' node, and '/oracle_service' service which is hosted by 'oracle' node and lastly a server for '/user_interface' service. Upon recieving request for '/user_interface' service it calls the '/clbk_user_interface' function. 
 	
 def main():
 	global req_hint_client_
