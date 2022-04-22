@@ -8,7 +8,7 @@ The following repository contains a ROS package for a toy simulation of Clauedo 
 
 Statement of a consistent hypothesis will be something like this: “Prof. Plum with the Dagger in the Hall”. Incase the deduced hypotheses is wrong then the robot will visit the three rooms again for new hints until it forms a consistent hypotheses. 
 
-To deduced an hypothesis robot use the ARMOR package service which is developed by researchers at University of Genova. ARMOR is versatile management system that can handle single or multiple-ontology archetectures under ROS. Please find more details regarding ARMOR from here: https://github.com/EmaroLab/armor 
+To deduced an hypothesis robot use the ARMOR package service which is developed by researchers at University of Genova. ARMOR is versatile management system that can handle single or multiple-ontology architectures under ROS. Please find more details regarding ARMOR from here: https://github.com/EmaroLab/armor 
 
 ## Project Installation:
 
