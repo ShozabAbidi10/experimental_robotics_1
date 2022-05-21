@@ -1,4 +1,4 @@
-# Assignment 1 of the Experimental Robotics course (MSc Robotics Engineering, Unige)
+# Project 1 - Experimental Robotics course (MSc Robotics Engineering, Unige)
 
 The following repository contains a ROS package for a toy simulation of Clauedo game in which a robot explore the environment for hints to find the killer. The environment in this project is an appartment with three rooms in which robot enter one by one to find hints. Based on the discovered hints robot deduces a hypotheses regarding the killer. The deduced hypotheses by robot has to be consistent and correct which means it has to be based on three different types of hints and belongs to set of predefined hypotheses which are considered as corrrect.
 
